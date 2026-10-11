@@ -39,7 +39,7 @@ fun LicensePlate(
 fun NorthStarPrimaryButton(
     text: String,
     modifier: Modifier = Modifier,
-    onClick: () -> Unit = {},
+    onClick: () -> Unit,
 ) {
     androidx.compose.material3.Button(
         onClick = onClick,

@@ -1,5 +1,30 @@
 <resources>
     <string name="app_name">North Star</string>
     <string name="splash_subtitle">Logistics · автопарк</string>
-    <string name="placeholder_nav_hint">Навигация по ролям — на следующих шагах</string>
+
+    <string name="action_sign_in">Войти</string>
+    <string name="action_sign_out">Выйти</string>
+    <string name="auth_create_account">Создать аккаунт</string>
+    <string name="auth_have_account">Уже есть аккаунт? Войти</string>
+    <string name="auth_error_sign_in">Не удалось войти</string>
+    <string name="auth_error_register">Не удалось зарегистрироваться</string>
+
+    <string name="field_login">Логин</string>
+    <string name="field_email">Почта</string>
+    <string name="field_password">Пароль</string>
+    <string name="field_password_confirm">Повторите пароль</string>
+
+    <string name="register_title">Регистрация</string>
+    <string name="register_subtitle">Одна форма для всех. Роль выдаст администратор после проверки. Номер машины указывать не нужно.</string>
+
+    <string name="waiting_title">Ожидание</string>
+    <string name="waiting_heading">Аккаунт на проверке</string>
+    <string name="waiting_message">Администратор выдаст роль. Диспетчер попадёт в автопарк, водитель — на свой рейс.</string>
+
+    <string name="tab_people">Люди</string>
+    <string name="tab_fleet">Автопарк</string>
+    <string name="tab_archive">Архив</string>
+    <string name="tab_trip">Рейс</string>
+    <string name="tab_more">Ещё</string>
+    <string name="tab_placeholder">Экран появится на следующем этапе</string>
 </resources>
