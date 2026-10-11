@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">North Star</string>
+    <string name="splash_subtitle">Logistics · автопарк</string>
+    <string name="placeholder_nav_hint">Навигация по ролям — на следующих шагах</string>
+</resources>
