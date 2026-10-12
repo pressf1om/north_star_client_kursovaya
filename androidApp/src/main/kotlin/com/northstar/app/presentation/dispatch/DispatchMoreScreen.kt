@@ -29,11 +29,12 @@ fun DispatchMoreScreen(
     onMessagesClick: () -> Unit,
     onAnalyticsClick: () -> Unit,
     onAboutClick: () -> Unit,
+    onSignOut: () -> Unit,
     onThemeClick: () -> Unit,
 ) {
     Column(modifier = Modifier.fillMaxSize()) {
         NorthStarTabTopBar(
-            title = stringResource(R.string.tab_more),
+            title = stringResource(R.string.tab_profile),
             onThemeClick = onThemeClick,
         )
         Column(
@@ -69,6 +70,10 @@ fun DispatchMoreScreen(
             DispatchMoreMenuItem(
                 title = stringResource(R.string.about_menu),
                 onClick = onAboutClick,
+            )
+            DispatchMoreMenuItem(
+                title = stringResource(R.string.action_sign_out),
+                onClick = onSignOut,
             )
         }
     }

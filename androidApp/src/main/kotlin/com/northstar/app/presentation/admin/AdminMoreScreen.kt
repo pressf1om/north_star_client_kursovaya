@@ -27,11 +27,12 @@ fun AdminMoreScreen(
     onTariffsClick: () -> Unit,
     onAnalyticsClick: () -> Unit,
     onAboutClick: () -> Unit,
+    onSignOut: () -> Unit,
     onThemeClick: () -> Unit,
 ) {
     Column(modifier = Modifier.fillMaxSize()) {
         NorthStarTabTopBar(
-            title = stringResource(R.string.tab_more),
+            title = stringResource(R.string.tab_profile),
             onThemeClick = onThemeClick,
         )
         Column(
@@ -71,6 +72,10 @@ fun AdminMoreScreen(
             AdminMoreMenuItem(
                 title = stringResource(R.string.about_menu),
                 onClick = onAboutClick,
+            )
+            AdminMoreMenuItem(
+                title = stringResource(R.string.action_sign_out),
+                onClick = onSignOut,
             )
         }
     }

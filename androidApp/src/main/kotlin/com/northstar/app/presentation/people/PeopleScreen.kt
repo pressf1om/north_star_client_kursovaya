@@ -2,7 +2,6 @@ package com.northstar.app.presentation.people
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Box
@@ -54,7 +53,7 @@ import com.northstar.app.ui.theme.StatusGreen
 
 @Composable
 fun PeopleScreen(
-    onAssignRole: (Int) -> Unit,
+    onManageUser: (Int) -> Unit,
     onThemeClick: () -> Unit,
     viewModel: PeopleViewModel = hiltViewModel(),
 ) {
@@ -152,8 +151,8 @@ fun PeopleScreen(
                         items(uiState.displayUsers, key = { it.id }) { user ->
                             PeopleUserCard(
                                 user = user,
-                                onClick = if (user.status == UserStatus.PENDING) {
-                                    { onAssignRole(user.id) }
+                                onManageClick = if (user.canManageRole()) {
+                                    { onManageUser(user.id) }
                                 } else {
                                     null
                                 },
@@ -167,17 +166,27 @@ fun PeopleScreen(
 }
 
 @Composable
+private fun UserDto.canManageRole(): Boolean =
+    status == UserStatus.PENDING ||
+        status == UserStatus.DISPATCHER ||
+        status == UserStatus.DRIVER
+
+@Composable
 private fun PeopleUserCard(
     user: UserDto,
-    onClick: (() -> Unit)?,
+    onManageClick: (() -> Unit)?,
 ) {
     val pending = user.cardAccentPending()
     val accent = if (pending) Amber else StatusGreen
+    val actionLabel = if (pending) {
+        stringResource(R.string.people_assign_role_action)
+    } else {
+        stringResource(R.string.people_edit_role_action)
+    }
     Row(
         modifier = Modifier
             .fillMaxWidth()
             .height(IntrinsicSize.Min)
-            .then(if (onClick != null) Modifier.clickable(onClick = onClick) else Modifier)
             .northStarSurfaceCard(),
     ) {
         Box(
@@ -213,14 +222,30 @@ private fun PeopleUserCard(
                     LicensePlate(number = user.carNumber!!)
                 }
             }
-            Text(
-                text = user.status.uppercase(),
-                fontSize = 11.sp,
-                fontWeight = FontWeight.ExtraBold,
-                letterSpacing = 1.sp,
-                color = accent,
-                modifier = Modifier.padding(top = 8.dp),
-            )
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 8.dp),
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                Text(
+                    text = user.status.uppercase(),
+                    fontSize = 11.sp,
+                    fontWeight = FontWeight.ExtraBold,
+                    letterSpacing = 1.sp,
+                    color = accent,
+                    modifier = Modifier.weight(1f),
+                )
+                if (onManageClick != null) {
+                    TextButton(onClick = onManageClick) {
+                        Text(
+                            text = actionLabel,
+                            fontWeight = FontWeight.Bold,
+                            fontSize = 12.sp,
+                        )
+                    }
+                }
+            }
         }
     }
 }

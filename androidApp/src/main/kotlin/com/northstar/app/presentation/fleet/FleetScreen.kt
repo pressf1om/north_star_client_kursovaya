@@ -61,6 +61,7 @@ import com.northstar.app.ui.theme.northStarSurfaceCard
 fun FleetScreen(
     canAddCar: Boolean,
     onNewApplication: () -> Unit,
+    onOpenApplication: (Int) -> Unit,
     onThemeClick: () -> Unit,
     viewModel: FleetViewModel = hiltViewModel(),
 ) {
@@ -182,6 +183,9 @@ fun FleetScreen(
                                 onDeleteApplication = application?.let { app ->
                                     { viewModel.requestDeleteApplication(app.id) }
                                 },
+                                onOpenApplication = application?.let { app ->
+                                    { onOpenApplication(app.id) }
+                                },
                             )
                         }
                     }
@@ -283,6 +287,7 @@ private fun FleetCarCard(
     application: ApplicationDto?,
     canDeleteApplication: Boolean,
     onDeleteApplication: (() -> Unit)?,
+    onOpenApplication: (() -> Unit)?,
 ) {
     val free = CarStatusLabels.isFree(car.status)
     val accent = if (free) StatusGreen else Amber
@@ -339,14 +344,25 @@ private fun FleetCarCard(
                     letterSpacing = 1.sp,
                     color = accent,
                 )
-                if (canDeleteApplication && onDeleteApplication != null) {
-                    TextButton(onClick = onDeleteApplication) {
-                        Text(
-                            text = stringResource(R.string.fleet_delete_application_action),
-                            color = MaterialTheme.colorScheme.error,
-                            fontWeight = FontWeight.Bold,
-                            fontSize = 12.sp,
-                        )
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    if (onOpenApplication != null) {
+                        TextButton(onClick = onOpenApplication) {
+                            Text(
+                                text = stringResource(R.string.fleet_application_details),
+                                fontWeight = FontWeight.Bold,
+                                fontSize = 12.sp,
+                            )
+                        }
+                    }
+                    if (canDeleteApplication && onDeleteApplication != null) {
+                        TextButton(onClick = onDeleteApplication) {
+                            Text(
+                                text = stringResource(R.string.fleet_delete_application_action),
+                                color = MaterialTheme.colorScheme.error,
+                                fontWeight = FontWeight.Bold,
+                                fontSize = 12.sp,
+                            )
+                        }
                     }
                 }
             }

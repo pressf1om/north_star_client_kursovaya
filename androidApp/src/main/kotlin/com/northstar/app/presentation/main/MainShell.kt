@@ -30,6 +30,7 @@ import com.northstar.app.presentation.driver.DriverHelpScreen
 import com.northstar.app.presentation.driver.DriverMoreScreen
 import com.northstar.app.presentation.driver.DriverNotesScreen
 import com.northstar.app.presentation.driver.DriverTripScreen
+import com.northstar.app.presentation.fleet.ApplicationDetailScreen
 import com.northstar.app.presentation.fleet.FleetScreen
 import com.northstar.app.presentation.fleet.NewApplicationScreen
 import com.northstar.app.presentation.people.AssignRoleScreen
@@ -49,7 +50,8 @@ fun MainShell(
     val backStackEntry by navController.currentBackStackEntryAsState()
     val currentRoute = backStackEntry?.destination?.route ?: startRoute(user)
 
-    val tabs = tabsFor(user)
+    val profileTab = stringResource(R.string.tab_profile)
+    val tabs = tabsFor(user, profileTab)
     val showBottomBar = tabs.any { it.route == currentRoute }
 
     Scaffold(
@@ -78,7 +80,7 @@ fun MainShell(
         ) {
             composable(MainRoutes.ADMIN_PEOPLE) {
                 PeopleScreen(
-                    onAssignRole = { userId ->
+                    onManageUser = { userId ->
                         navController.navigate(MainRoutes.adminAssignRole(userId))
                     },
                     onThemeClick = onThemeClick,
@@ -99,8 +101,17 @@ fun MainShell(
                 FleetScreen(
                     canAddCar = user.status == UserStatus.ADMIN,
                     onNewApplication = { navController.navigate(MainRoutes.NEW_APPLICATION) },
+                    onOpenApplication = { id ->
+                        navController.navigate(MainRoutes.fleetApplication(id))
+                    },
                     onThemeClick = onThemeClick,
                 )
+            }
+            composable(
+                route = MainRoutes.FLEET_APPLICATION,
+                arguments = listOf(navArgument("applicationId") { type = NavType.IntType }),
+            ) {
+                ApplicationDetailScreen(onBack = { navController.popBackStack() })
             }
             composable(MainRoutes.NEW_APPLICATION) {
                 NewApplicationScreen(
@@ -115,6 +126,7 @@ fun MainShell(
                     onTariffsClick = { navController.navigate(MainRoutes.ADMIN_ROUTE_SETTINGS) },
                     onAnalyticsClick = { navController.navigate(MainRoutes.ANALYTICS) },
                     onAboutClick = { navController.navigate(MainRoutes.ABOUT_PROJECT) },
+                    onSignOut = onSignOut,
                     onThemeClick = onThemeClick,
                 )
             }
@@ -137,6 +149,9 @@ fun MainShell(
                 FleetScreen(
                     canAddCar = false,
                     onNewApplication = { navController.navigate(MainRoutes.NEW_APPLICATION) },
+                    onOpenApplication = { id ->
+                        navController.navigate(MainRoutes.fleetApplication(id))
+                    },
                     onThemeClick = onThemeClick,
                 )
             }
@@ -149,6 +164,7 @@ fun MainShell(
                     onMessagesClick = { navController.navigate(MainRoutes.DISPATCH_MESSAGES) },
                     onAnalyticsClick = { navController.navigate(MainRoutes.ANALYTICS) },
                     onAboutClick = { navController.navigate(MainRoutes.ABOUT_PROJECT) },
+                    onSignOut = onSignOut,
                     onThemeClick = onThemeClick,
                 )
             }
@@ -203,25 +219,25 @@ private fun startRoute(user: CurrentUser): String = when (user.status) {
     else -> MainRoutes.ADMIN_PEOPLE
 }
 
-private fun tabsFor(user: CurrentUser): List<BottomTab> = when (user.status) {
+private fun tabsFor(user: CurrentUser, profileTabLabel: String): List<BottomTab> = when (user.status) {
     UserStatus.ADMIN -> listOf(
         BottomTab(MainRoutes.ADMIN_PEOPLE, "Люди"),
         BottomTab(MainRoutes.ADMIN_FLEET, "Парк"),
-        BottomTab(MainRoutes.ADMIN_MORE, "Ещё"),
+        BottomTab(MainRoutes.ADMIN_MORE, profileTabLabel),
     )
     UserStatus.DISPATCHER -> listOf(
         BottomTab(MainRoutes.DISPATCH_FLEET, "Парк"),
         BottomTab(MainRoutes.DISPATCH_ARCHIVE, "Архив"),
-        BottomTab(MainRoutes.DISPATCH_MORE, "Ещё"),
+        BottomTab(MainRoutes.DISPATCH_MORE, profileTabLabel),
     )
     UserStatus.DRIVER -> listOf(
         BottomTab(MainRoutes.DRIVER_TRIP, "Рейс"),
         BottomTab(MainRoutes.DRIVER_ARCHIVE, "Архив"),
-        BottomTab(MainRoutes.DRIVER_MORE, "Ещё"),
+        BottomTab(MainRoutes.DRIVER_MORE, profileTabLabel),
     )
     else -> listOf(
         BottomTab(MainRoutes.ADMIN_PEOPLE, "Люди"),
         BottomTab(MainRoutes.ADMIN_FLEET, "Парк"),
-        BottomTab(MainRoutes.ADMIN_MORE, "Ещё"),
+        BottomTab(MainRoutes.ADMIN_MORE, profileTabLabel),
     )
 }

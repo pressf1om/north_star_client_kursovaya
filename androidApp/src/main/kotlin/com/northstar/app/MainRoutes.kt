@@ -12,6 +12,9 @@ object MainRoutes {
     fun adminAssignRole(userId: Int): String = "admin/assign_role/$userId"
     const val ADMIN_FLEET = "admin/fleet"
     const val NEW_APPLICATION = "fleet/new_application"
+    const val FLEET_APPLICATION = "fleet/application/{applicationId}"
+
+    fun fleetApplication(applicationId: Int): String = "fleet/application/$applicationId"
     const val ADMIN_MORE = "admin/more"
     const val ADMIN_ROUTES = "admin/routes"
     const val ADMIN_NEW_ROUTE = "admin/routes/new"

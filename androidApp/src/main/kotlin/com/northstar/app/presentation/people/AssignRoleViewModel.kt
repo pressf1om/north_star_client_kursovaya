@@ -62,12 +62,21 @@ class AssignRoleViewModel @Inject constructor(
                     return@launch
                 }
                 carsResult.onSuccess { cars ->
+                    val selectedRole = when (user.status) {
+                        UserStatus.DISPATCHER -> AssignableRole.DISPATCHER
+                        UserStatus.DRIVER -> AssignableRole.DRIVER
+                        else -> AssignableRole.DRIVER
+                    }
+                    val carId = user.carNumber
+                        ?.let { number -> cars.find { it.carNumber == number }?.id }
+                        ?: cars.firstOrNull()?.id
                     _uiState.update {
                         it.copy(
                             isLoading = false,
                             user = user,
                             cars = cars,
-                            selectedCarId = cars.firstOrNull()?.id,
+                            selectedRole = selectedRole,
+                            selectedCarId = carId,
                         )
                     }
                 }.onFailure {

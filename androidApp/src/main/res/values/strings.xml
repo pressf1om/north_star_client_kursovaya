@@ -25,7 +25,8 @@
     <string name="tab_fleet">Автопарк</string>
     <string name="tab_archive">Архив</string>
     <string name="tab_trip">Рейс</string>
-    <string name="tab_more">Ещё</string>
+    <string name="tab_more">Профиль</string>
+    <string name="tab_profile">Профиль</string>
     <string name="tab_placeholder">Экран появится на следующем этапе</string>
 
     <string name="people_search_hint">Логин, роль</string>
@@ -54,6 +55,15 @@
     <string name="fleet_delete_application_title">Удалить заявку?</string>
     <string name="fleet_delete_application_message">Заявка №%1$d будет удалена, машина снова станет свободной. В архив она не попадёт.</string>
     <string name="fleet_delete_application_confirm">Удалить</string>
+    <string name="fleet_application_details">Подробнее</string>
+    <string name="application_detail_car">Машина</string>
+    <string name="application_detail_status">Статус</string>
+    <string name="application_detail_weight">Вес</string>
+    <string name="application_detail_date">Дата выезда</string>
+    <string name="application_detail_coord_start">Начало</string>
+    <string name="application_detail_coord_end">Конец</string>
+    <string name="people_assign_role_action">Выдать роль</string>
+    <string name="people_edit_role_action">Изменить роль</string>
     <string name="fleet_add_car_title">Новая машина</string>
     <string name="fleet_field_number">Госномер</string>
     <string name="fleet_field_model">Модель</string>
