@@ -27,4 +27,7 @@
     <string name="tab_trip">Рейс</string>
     <string name="tab_more">Ещё</string>
     <string name="tab_placeholder">Экран появится на следующем этапе</string>
+
+    <string name="people_search_hint">Логин, роль</string>
+    <string name="action_retry">Обновить</string>
 </resources>

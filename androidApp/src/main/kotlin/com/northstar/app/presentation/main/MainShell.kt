@@ -15,6 +15,7 @@ import com.northstar.app.MainRoutes
 import com.northstar.app.R
 import com.northstar.app.presentation.components.BottomTab
 import com.northstar.app.presentation.components.MainBottomBar
+import com.northstar.app.presentation.people.PeopleScreen
 import com.northstar.app.presentation.session.CurrentUser
 import com.northstar.app.presentation.session.UserStatus
 
@@ -52,10 +53,7 @@ fun MainShell(
             modifier = Modifier.padding(padding),
         ) {
             composable(MainRoutes.ADMIN_PEOPLE) {
-                TabPlaceholderScreen(
-                    title = stringResource(R.string.tab_people),
-                    subtitle = stringResource(R.string.tab_placeholder),
-                )
+                PeopleScreen()
             }
             composable(MainRoutes.ADMIN_FLEET) {
                 TabPlaceholderScreen(
