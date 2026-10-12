@@ -18,6 +18,8 @@ import com.northstar.app.R
 import com.northstar.app.presentation.components.BottomTab
 import com.northstar.app.presentation.components.MainBottomBar
 import com.northstar.app.presentation.archive.ArchiveScreen
+import com.northstar.app.presentation.driver.DriverHelpScreen
+import com.northstar.app.presentation.driver.DriverMoreScreen
 import com.northstar.app.presentation.driver.DriverTripScreen
 import com.northstar.app.presentation.fleet.FleetScreen
 import com.northstar.app.presentation.fleet.NewApplicationScreen
@@ -29,7 +31,7 @@ import com.northstar.app.presentation.session.UserStatus
 @Composable
 fun MainShell(
     user: CurrentUser,
-    @Suppress("UNUSED_PARAMETER") onSignOut: () -> Unit,
+    onSignOut: () -> Unit,
 ) {
     val navController = rememberNavController()
     val backStackEntry by navController.currentBackStackEntryAsState()
@@ -120,9 +122,16 @@ fun MainShell(
                 ArchiveScreen(carNumber = user.carNumber)
             }
             composable(MainRoutes.DRIVER_MORE) {
-                TabPlaceholderScreen(
-                    title = stringResource(R.string.tab_more),
-                    subtitle = user.username,
+                DriverMoreScreen(
+                    user = user,
+                    onHelpClick = { navController.navigate(MainRoutes.DRIVER_HELP) },
+                    onSignOut = onSignOut,
+                )
+            }
+            composable(MainRoutes.DRIVER_HELP) {
+                DriverHelpScreen(
+                    carNumber = user.carNumber,
+                    onBack = { navController.popBackStack() },
                 )
             }
         }

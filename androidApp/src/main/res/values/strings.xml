@@ -74,4 +74,17 @@
     <string name="archive_empty">Завершённых заявок пока нет</string>
     <string name="archive_application_title">Заявка №%1$d</string>
     <string name="archive_status_completed">Завершена</string>
+
+    <string name="driver_cabinet_title">Кабинет</string>
+    <string name="driver_help_menu">Помощь</string>
+    <string name="driver_notes_menu">Заметки по машине</string>
+    <string name="driver_notes_menu_sub">Только на этом телефоне</string>
+    <string name="driver_help_title">Помощь</string>
+    <string name="driver_help_subtitle">Номер машины берётся из учётки. Поле не редактируется.</string>
+    <string name="driver_help_car_label">Машина</string>
+    <string name="driver_help_no_car">Машина не назначена</string>
+    <string name="driver_help_message_label">Что произошло?</string>
+    <string name="driver_help_message_hint">Опишите проблему</string>
+    <string name="driver_help_send">Отправить</string>
+    <string name="driver_help_sent">Сообщение отправлено</string>
 </resources>
