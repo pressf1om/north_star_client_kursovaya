@@ -4,10 +4,14 @@ import kotlinx.serialization.Serializable
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
+import retrofit2.http.Path
 
 interface ApplicationsApi {
     @GET("api/applications")
     suspend fun listApplications(): ApplicationsListResponseDto
+
+    @GET("api/applications/by-car/{carNumber}")
+    suspend fun getByCar(@Path("carNumber") carNumber: String): ApplicationDto
 
     @POST("api/applications")
     suspend fun createApplication(@Body body: CreateApplicationRequestDto): ApplicationDto

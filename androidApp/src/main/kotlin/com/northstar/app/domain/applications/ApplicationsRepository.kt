@@ -5,6 +5,8 @@ import com.northstar.app.data.api.ApplicationDto
 interface ApplicationsRepository {
     suspend fun listApplications(): Result<List<ApplicationDto>>
 
+    suspend fun getByCarNumber(carNumber: String): Result<ApplicationDto?>
+
     suspend fun createApplication(
         coordStart: String,
         coordEnd: String,

@@ -17,6 +17,7 @@ import com.northstar.app.MainRoutes
 import com.northstar.app.R
 import com.northstar.app.presentation.components.BottomTab
 import com.northstar.app.presentation.components.MainBottomBar
+import com.northstar.app.presentation.driver.DriverTripScreen
 import com.northstar.app.presentation.fleet.FleetScreen
 import com.northstar.app.presentation.fleet.NewApplicationScreen
 import com.northstar.app.presentation.people.AssignRoleScreen
@@ -115,10 +116,7 @@ fun MainShell(
                 )
             }
             composable(MainRoutes.DRIVER_TRIP) {
-                TabPlaceholderScreen(
-                    title = stringResource(R.string.tab_trip),
-                    subtitle = user.carNumber ?: stringResource(R.string.tab_placeholder),
-                )
+                DriverTripScreen(carNumber = user.carNumber)
             }
             composable(MainRoutes.DRIVER_ARCHIVE) {
                 TabPlaceholderScreen(

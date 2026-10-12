@@ -63,4 +63,10 @@
     <string name="new_application_free_car">Свободная машина</string>
     <string name="new_application_create">Создать</string>
     <string name="new_application_no_free_cars">Нет свободных машин</string>
+
+    <string name="driver_trip_empty">Назначенных заявок нет</string>
+    <string name="driver_trip_application_title">Заявка №%1$d</string>
+    <string name="driver_trip_confirm_step">Да, перейти дальше</string>
+    <string name="driver_trip_copy_coords">Копировать координаты</string>
+    <string name="driver_trip_date_start">Выезд: %1$s</string>
 </resources>
