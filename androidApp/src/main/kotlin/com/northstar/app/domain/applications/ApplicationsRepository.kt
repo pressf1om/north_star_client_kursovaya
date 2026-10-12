@@ -17,4 +17,6 @@ interface ApplicationsRepository {
 
     /** `null` в успешном результате — заявка ушла в архив (статус 1). */
     suspend fun updateApplicationStatus(applicationId: Int, status: String): Result<ApplicationDto?>
+
+    suspend fun deleteApplication(applicationId: Int): Result<Unit>
 }

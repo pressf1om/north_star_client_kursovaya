@@ -50,6 +50,10 @@
     <string name="fleet_application_line">Заявка №%1$d · %2$s</string>
     <string name="fleet_trip_in_progress">Рейс в работе</string>
     <string name="fleet_add_car">Добавить машину</string>
+    <string name="fleet_delete_application_action">Удалить заявку</string>
+    <string name="fleet_delete_application_title">Удалить заявку?</string>
+    <string name="fleet_delete_application_message">Заявка №%1$d будет удалена, машина снова станет свободной. В архив она не попадёт.</string>
+    <string name="fleet_delete_application_confirm">Удалить</string>
     <string name="fleet_add_car_title">Новая машина</string>
     <string name="fleet_field_number">Госномер</string>
     <string name="fleet_field_model">Модель</string>

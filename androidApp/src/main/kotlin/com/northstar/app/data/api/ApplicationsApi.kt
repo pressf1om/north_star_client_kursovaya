@@ -2,6 +2,7 @@ package com.northstar.app.data.api
 
 import kotlinx.serialization.Serializable
 import retrofit2.http.Body
+import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.PATCH
 import retrofit2.http.POST
@@ -22,6 +23,9 @@ interface ApplicationsApi {
         @Path("id") id: Int,
         @Body body: UpdateApplicationStatusRequestDto,
     ): UpdateApplicationStatusResponseDto
+
+    @DELETE("api/applications/{id}")
+    suspend fun deleteApplication(@Path("id") id: Int)
 }
 
 @Serializable

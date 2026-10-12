@@ -174,15 +174,52 @@ fun FleetScreen(
                 else -> {
                     LazyColumn(verticalArrangement = Arrangement.spacedBy(10.dp)) {
                         items(uiState.displayCars, key = { it.id }) { car ->
+                            val application = viewModel.applicationForCar(car.carNumber)
                             FleetCarCard(
                                 car = car,
-                                application = viewModel.applicationForCar(car.carNumber),
+                                application = application,
+                                canDeleteApplication = canAddCar && application != null,
+                                onDeleteApplication = application?.let { app ->
+                                    { viewModel.requestDeleteApplication(app.id) }
+                                },
                             )
                         }
                     }
                 }
             }
         }
+    }
+
+    uiState.deleteApplicationId?.let { applicationId ->
+        AlertDialog(
+            onDismissRequest = viewModel::dismissDeleteApplication,
+            title = { Text(stringResource(R.string.fleet_delete_application_title)) },
+            text = {
+                Column {
+                    Text(stringResource(R.string.fleet_delete_application_message, applicationId))
+                    uiState.deleteError?.let { error ->
+                        Text(
+                            text = error,
+                            color = MaterialTheme.colorScheme.error,
+                            modifier = Modifier.padding(top = 8.dp),
+                        )
+                    }
+                }
+            },
+            confirmButton = {
+                TextButton(
+                    onClick = viewModel::confirmDeleteApplication,
+                    enabled = !uiState.isDeletingApplication,
+                ) {
+                    Text(stringResource(R.string.fleet_delete_application_confirm))
+                }
+            },
+            dismissButton = {
+                TextButton(onClick = viewModel::dismissDeleteApplication) {
+                    Text(stringResource(R.string.action_cancel))
+                }
+            },
+        )
     }
 
     if (uiState.showAddDialog) {
@@ -241,7 +278,12 @@ fun FleetScreen(
 }
 
 @Composable
-private fun FleetCarCard(car: CarDto, application: ApplicationDto?) {
+private fun FleetCarCard(
+    car: CarDto,
+    application: ApplicationDto?,
+    canDeleteApplication: Boolean,
+    onDeleteApplication: (() -> Unit)?,
+) {
     val free = CarStatusLabels.isFree(car.status)
     val accent = if (free) StatusGreen else Amber
     val statusLabel = CarStatusLabels.label(car.status)
@@ -283,14 +325,31 @@ private fun FleetCarCard(car: CarDto, application: ApplicationDto?) {
                     Text(subtitle, fontSize = 13.sp, color = MaterialTheme.colorScheme.onSurfaceVariant)
                 }
             }
-            Text(
-                text = statusLabel.uppercase(),
-                fontSize = 11.sp,
-                fontWeight = FontWeight.ExtraBold,
-                letterSpacing = 1.sp,
-                color = accent,
-                modifier = Modifier.padding(top = 8.dp),
-            )
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 8.dp),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                Text(
+                    text = statusLabel.uppercase(),
+                    fontSize = 11.sp,
+                    fontWeight = FontWeight.ExtraBold,
+                    letterSpacing = 1.sp,
+                    color = accent,
+                )
+                if (canDeleteApplication && onDeleteApplication != null) {
+                    TextButton(onClick = onDeleteApplication) {
+                        Text(
+                            text = stringResource(R.string.fleet_delete_application_action),
+                            color = MaterialTheme.colorScheme.error,
+                            fontWeight = FontWeight.Bold,
+                            fontSize = 12.sp,
+                        )
+                    }
+                }
+            }
         }
     }
 }

@@ -54,4 +54,8 @@ class ServerApplicationsRepository @Inject constructor(
         )
         if (response.archived) null else response.application
     }
+
+    override suspend fun deleteApplication(applicationId: Int): Result<Unit> = runCatching {
+        applicationsApi.deleteApplication(applicationId)
+    }
 }

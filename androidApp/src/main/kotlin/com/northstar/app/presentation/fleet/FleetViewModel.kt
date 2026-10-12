@@ -6,6 +6,7 @@ import com.northstar.app.data.api.ApplicationDto
 import com.northstar.app.data.api.CarDto
 import com.northstar.app.data.search.SearchHistoryStore
 import com.northstar.app.data.search.SearchScope
+import com.northstar.app.data.remote.apiErrorMessage
 import com.northstar.app.domain.applications.ApplicationsRepository
 import com.northstar.app.domain.cars.CarsRepository
 import com.northstar.app.presentation.search.matchesQuery
@@ -36,6 +37,9 @@ data class FleetUiState(
     val addModel: String = "",
     val isSavingCar: Boolean = false,
     val addError: String? = null,
+    val deleteApplicationId: Int? = null,
+    val isDeletingApplication: Boolean = false,
+    val deleteError: String? = null,
 )
 
 @HiltViewModel
@@ -164,6 +168,39 @@ class FleetViewModel @Inject constructor(
 
     fun onAddModelChange(value: String) {
         _uiState.update { it.copy(addModel = value) }
+    }
+
+    fun requestDeleteApplication(applicationId: Int) {
+        _uiState.update { it.copy(deleteApplicationId = applicationId, deleteError = null) }
+    }
+
+    fun dismissDeleteApplication() {
+        _uiState.update { it.copy(deleteApplicationId = null, deleteError = null) }
+    }
+
+    fun confirmDeleteApplication() {
+        val applicationId = _uiState.value.deleteApplicationId ?: return
+        viewModelScope.launch {
+            _uiState.update { it.copy(isDeletingApplication = true, deleteError = null) }
+            applicationsRepository.deleteApplication(applicationId)
+                .onSuccess {
+                    _uiState.update {
+                        it.copy(
+                            isDeletingApplication = false,
+                            deleteApplicationId = null,
+                        )
+                    }
+                    load()
+                }
+                .onFailure { error ->
+                    _uiState.update {
+                        it.copy(
+                            isDeletingApplication = false,
+                            deleteError = error.apiErrorMessage("Не удалось удалить заявку"),
+                        )
+                    }
+                }
+        }
     }
 
     fun submitNewCar() {
