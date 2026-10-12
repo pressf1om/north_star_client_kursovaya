@@ -101,9 +101,11 @@ fun DriverTripScreen(
                     val app = uiState.application!!
                     TripCard(application = app)
                     Spacer(modifier = Modifier.height(16.dp))
+                    val canAdvance = DriverTripStatusUi.nextStatusCode(app.status) != null
                     NorthStarPrimaryButton(
                         text = stringResource(R.string.driver_trip_confirm_step),
-                        onClick = { /* C14 */ },
+                        onClick = { viewModel.confirmStep() },
+                        enabled = canAdvance && !uiState.isAdvancing,
                         modifier = Modifier.fillMaxWidth(),
                     )
                     OutlinedButton(

@@ -14,4 +14,7 @@ interface ApplicationsRepository {
         weight: String,
         carNow: String,
     ): Result<ApplicationDto>
+
+    /** `null` в успешном результате — заявка ушла в архив (статус 1). */
+    suspend fun updateApplicationStatus(applicationId: Int, status: String): Result<ApplicationDto?>
 }

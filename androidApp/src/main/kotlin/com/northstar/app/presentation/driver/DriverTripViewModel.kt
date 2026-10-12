@@ -14,6 +14,7 @@ import kotlinx.coroutines.launch
 
 data class DriverTripUiState(
     val isLoading: Boolean = true,
+    val isAdvancing: Boolean = false,
     val carNumber: String? = null,
     val application: ApplicationDto? = null,
     val errorMessage: String? = null,
@@ -54,6 +55,40 @@ class DriverTripViewModel @Inject constructor(
                         it.copy(
                             isLoading = false,
                             errorMessage = "Не удалось загрузить рейс",
+                        )
+                    }
+                }
+        }
+    }
+
+    fun confirmStep() {
+        val app = _uiState.value.application ?: return
+        val next = DriverTripStatusUi.nextStatusCode(app.status) ?: return
+        viewModelScope.launch {
+            _uiState.update { it.copy(isAdvancing = true, errorMessage = null) }
+            applicationsRepository.updateApplicationStatus(app.id, next)
+                .onSuccess { updated ->
+                    _uiState.update {
+                        if (updated == null) {
+                            it.copy(
+                                isAdvancing = false,
+                                application = null,
+                                noTrip = true,
+                            )
+                        } else {
+                            it.copy(
+                                isAdvancing = false,
+                                application = updated,
+                                noTrip = false,
+                            )
+                        }
+                    }
+                }
+                .onFailure {
+                    _uiState.update {
+                        it.copy(
+                            isAdvancing = false,
+                            errorMessage = "Не удалось обновить статус",
                         )
                     }
                 }
