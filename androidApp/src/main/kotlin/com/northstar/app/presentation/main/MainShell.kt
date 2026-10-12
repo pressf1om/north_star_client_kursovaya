@@ -22,6 +22,7 @@ import com.northstar.app.presentation.dispatch.DispatchMessagesScreen
 import com.northstar.app.presentation.dispatch.DispatchMoreScreen
 import com.northstar.app.presentation.driver.DriverHelpScreen
 import com.northstar.app.presentation.driver.DriverMoreScreen
+import com.northstar.app.presentation.driver.DriverNotesScreen
 import com.northstar.app.presentation.driver.DriverTripScreen
 import com.northstar.app.presentation.fleet.FleetScreen
 import com.northstar.app.presentation.fleet.NewApplicationScreen
@@ -141,8 +142,15 @@ fun MainShell(
                     isDarkTheme = isDarkTheme,
                     onDarkThemeChange = onDarkThemeChange,
                     onHelpClick = { navController.navigate(MainRoutes.DRIVER_HELP) },
+                    onNotesClick = { navController.navigate(MainRoutes.DRIVER_NOTES) },
                     onSignOut = onSignOut,
                     onThemeClick = onThemeClick,
+                )
+            }
+            composable(MainRoutes.DRIVER_NOTES) {
+                DriverNotesScreen(
+                    carNumber = user.carNumber,
+                    onBack = { navController.popBackStack() },
                 )
             }
             composable(MainRoutes.DRIVER_HELP) {

@@ -36,6 +36,7 @@ fun DriverMoreScreen(
     isDarkTheme: Boolean,
     onDarkThemeChange: (Boolean) -> Unit,
     onHelpClick: () -> Unit,
+    onNotesClick: () -> Unit,
     onSignOut: () -> Unit,
     onThemeClick: () -> Unit,
 ) {
@@ -111,7 +112,7 @@ fun DriverMoreScreen(
             DriverMoreMenuItem(
                 title = stringResource(R.string.driver_notes_menu),
                 subtitle = stringResource(R.string.driver_notes_menu_sub),
-                onClick = { /* C18 */ },
+                onClick = onNotesClick,
             )
             DriverMoreMenuItem(
                 title = stringResource(R.string.action_sign_out),

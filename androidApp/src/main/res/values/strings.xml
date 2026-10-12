@@ -79,6 +79,12 @@
     <string name="driver_help_menu">Помощь</string>
     <string name="driver_notes_menu">Заметки по машине</string>
     <string name="driver_notes_menu_sub">Только на этом телефоне</string>
+    <string name="driver_notes_title">Заметки по машине</string>
+    <string name="driver_notes_subtitle">Заметки хранятся только на этом телефоне.</string>
+    <string name="driver_notes_hint">Новая заметка</string>
+    <string name="driver_notes_add">Добавить</string>
+    <string name="driver_notes_clear_all">Очистить все заметки</string>
+    <string name="driver_notes_empty">Заметок пока нет</string>
     <string name="driver_help_title">Помощь</string>
     <string name="driver_help_subtitle">Номер машины берётся из учётки. Поле не редактируется.</string>
     <string name="driver_help_car_label">Машина</string>

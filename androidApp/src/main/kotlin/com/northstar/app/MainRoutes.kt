@@ -23,4 +23,5 @@ object MainRoutes {
     const val DRIVER_ARCHIVE = "driver/archive"
     const val DRIVER_MORE = "driver/more"
     const val DRIVER_HELP = "driver/help"
+    const val DRIVER_NOTES = "driver/notes"
 }
