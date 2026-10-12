@@ -38,4 +38,15 @@
     <string name="assign_role_no_cars">Нет машин в парке</string>
     <string name="role_dispatcher">Диспетчер</string>
     <string name="role_driver">Водитель</string>
+
+    <string name="fleet_search_hint">Номер, заявка, город</string>
+    <string name="fleet_new_application">Новая заявка</string>
+    <string name="fleet_no_trip">Нет рейса</string>
+    <string name="fleet_trip_in_progress">Рейс в работе</string>
+    <string name="fleet_add_car">Добавить машину</string>
+    <string name="fleet_add_car_title">Новая машина</string>
+    <string name="fleet_field_number">Госномер</string>
+    <string name="fleet_field_model">Модель</string>
+    <string name="action_save">Сохранить</string>
+    <string name="action_cancel">Отмена</string>
 </resources>
