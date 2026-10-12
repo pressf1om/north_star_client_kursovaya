@@ -69,4 +69,9 @@
     <string name="driver_trip_confirm_step">Да, перейти дальше</string>
     <string name="driver_trip_copy_coords">Копировать координаты</string>
     <string name="driver_trip_date_start">Выезд: %1$s</string>
+
+    <string name="archive_title">Архив рейсов</string>
+    <string name="archive_empty">Завершённых заявок пока нет</string>
+    <string name="archive_application_title">Заявка №%1$d</string>
+    <string name="archive_status_completed">Завершена</string>
 </resources>

@@ -3,6 +3,7 @@ package com.northstar.app.di
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import com.northstar.app.BuildConfig
 import com.northstar.app.data.api.ApplicationsApi
+import com.northstar.app.data.api.CompletedApplicationsApi
 import com.northstar.app.data.api.AuthApi
 import com.northstar.app.data.api.CarsApi
 import com.northstar.app.data.api.UsersApi
@@ -73,4 +74,9 @@ object NetworkModule {
     @Singleton
     fun provideApplicationsApi(retrofit: Retrofit): ApplicationsApi =
         retrofit.create(ApplicationsApi::class.java)
+
+    @Provides
+    @Singleton
+    fun provideCompletedApplicationsApi(retrofit: Retrofit): CompletedApplicationsApi =
+        retrofit.create(CompletedApplicationsApi::class.java)
 }
