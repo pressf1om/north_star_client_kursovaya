@@ -2,6 +2,7 @@ package com.northstar.app.presentation.people
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Box
@@ -21,7 +22,11 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.platform.LocalLifecycleOwner
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleEventObserver
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -32,6 +37,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.northstar.app.R
 import com.northstar.app.data.api.UserDto
+import com.northstar.app.presentation.session.UserStatus
 import com.northstar.app.presentation.components.NorthStarTabTopBar
 import com.northstar.app.ui.components.LicensePlate
 import com.northstar.app.ui.theme.Amber
@@ -43,9 +49,20 @@ import com.northstar.app.ui.theme.StatusGreen
 
 @Composable
 fun PeopleScreen(
+    onAssignRole: (Int) -> Unit,
     viewModel: PeopleViewModel = hiltViewModel(),
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+    val lifecycleOwner = LocalLifecycleOwner.current
+    DisposableEffect(lifecycleOwner) {
+        val observer = LifecycleEventObserver { _, event ->
+            if (event == Lifecycle.Event.ON_RESUME) {
+                viewModel.load()
+            }
+        }
+        lifecycleOwner.lifecycle.addObserver(observer)
+        onDispose { lifecycleOwner.lifecycle.removeObserver(observer) }
+    }
 
     Column(modifier = Modifier.fillMaxSize()) {
         NorthStarTabTopBar(
@@ -82,7 +99,14 @@ fun PeopleScreen(
                 else -> {
                     LazyColumn(verticalArrangement = Arrangement.spacedBy(10.dp)) {
                         items(uiState.users, key = { it.id }) { user ->
-                            PeopleUserCard(user = user)
+                            PeopleUserCard(
+                                user = user,
+                                onClick = if (user.status == UserStatus.PENDING) {
+                                    { onAssignRole(user.id) }
+                                } else {
+                                    null
+                                },
+                            )
                         }
                     }
                 }
@@ -114,13 +138,17 @@ private fun PeopleSearchPlaceholder() {
 }
 
 @Composable
-private fun PeopleUserCard(user: UserDto) {
+private fun PeopleUserCard(
+    user: UserDto,
+    onClick: (() -> Unit)?,
+) {
     val pending = user.cardAccentPending()
     val accent = if (pending) Amber else StatusGreen
     Row(
         modifier = Modifier
             .fillMaxWidth()
             .height(IntrinsicSize.Min)
+            .then(if (onClick != null) Modifier.clickable(onClick = onClick) else Modifier)
             .background(CreamInput)
             .border(1.dp, CardBorder),
     ) {

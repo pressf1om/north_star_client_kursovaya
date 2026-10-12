@@ -3,6 +3,7 @@ package com.northstar.app.di
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import com.northstar.app.BuildConfig
 import com.northstar.app.data.api.AuthApi
+import com.northstar.app.data.api.CarsApi
 import com.northstar.app.data.api.UsersApi
 import com.northstar.app.data.remote.TokenInterceptor
 import dagger.Module
@@ -62,4 +63,8 @@ object NetworkModule {
     @Provides
     @Singleton
     fun provideUsersApi(retrofit: Retrofit): UsersApi = retrofit.create(UsersApi::class.java)
+
+    @Provides
+    @Singleton
+    fun provideCarsApi(retrofit: Retrofit): CarsApi = retrofit.create(CarsApi::class.java)
 }

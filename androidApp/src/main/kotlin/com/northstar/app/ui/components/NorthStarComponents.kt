@@ -39,10 +39,12 @@ fun LicensePlate(
 fun NorthStarPrimaryButton(
     text: String,
     modifier: Modifier = Modifier,
+    enabled: Boolean = true,
     onClick: () -> Unit,
 ) {
     androidx.compose.material3.Button(
         onClick = onClick,
+        enabled = enabled,
         modifier = modifier,
         colors = androidx.compose.material3.ButtonDefaults.buttonColors(
             containerColor = MaterialTheme.colorScheme.secondary,

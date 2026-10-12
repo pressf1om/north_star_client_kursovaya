@@ -7,14 +7,17 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavGraph.Companion.findStartDestination
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import com.northstar.app.MainRoutes
 import com.northstar.app.R
 import com.northstar.app.presentation.components.BottomTab
 import com.northstar.app.presentation.components.MainBottomBar
+import com.northstar.app.presentation.people.AssignRoleScreen
 import com.northstar.app.presentation.people.PeopleScreen
 import com.northstar.app.presentation.session.CurrentUser
 import com.northstar.app.presentation.session.UserStatus
@@ -29,22 +32,25 @@ fun MainShell(
     val currentRoute = backStackEntry?.destination?.route ?: startRoute(user)
 
     val tabs = tabsFor(user)
+    val showBottomBar = tabs.any { it.route == currentRoute }
 
     Scaffold(
         bottomBar = {
-            MainBottomBar(
-                tabs = tabs,
-                currentRoute = currentRoute,
-                onNavigate = { route ->
-                    navController.navigate(route) {
-                        popUpTo(navController.graph.findStartDestination().id) {
-                            saveState = true
+            if (showBottomBar) {
+                MainBottomBar(
+                    tabs = tabs,
+                    currentRoute = currentRoute,
+                    onNavigate = { route ->
+                        navController.navigate(route) {
+                            popUpTo(navController.graph.findStartDestination().id) {
+                                saveState = true
+                            }
+                            launchSingleTop = true
+                            restoreState = true
                         }
-                        launchSingleTop = true
-                        restoreState = true
-                    }
-                },
-            )
+                    },
+                )
+            }
         },
     ) { padding ->
         NavHost(
@@ -53,7 +59,22 @@ fun MainShell(
             modifier = Modifier.padding(padding),
         ) {
             composable(MainRoutes.ADMIN_PEOPLE) {
-                PeopleScreen()
+                PeopleScreen(
+                    onAssignRole = { userId ->
+                        navController.navigate(MainRoutes.adminAssignRole(userId))
+                    },
+                )
+            }
+            composable(
+                route = MainRoutes.ADMIN_ASSIGN_ROLE,
+                arguments = listOf(navArgument("userId") { type = NavType.IntType }),
+            ) {
+                AssignRoleScreen(
+                    onBack = { navController.popBackStack() },
+                    onAssigned = {
+                        navController.popBackStack()
+                    },
+                )
             }
             composable(MainRoutes.ADMIN_FLEET) {
                 TabPlaceholderScreen(

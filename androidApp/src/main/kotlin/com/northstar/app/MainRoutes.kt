@@ -7,6 +7,9 @@ object AuthRoutes {
 
 object MainRoutes {
     const val ADMIN_PEOPLE = "admin/people"
+    const val ADMIN_ASSIGN_ROLE = "admin/assign_role/{userId}"
+
+    fun adminAssignRole(userId: Int): String = "admin/assign_role/$userId"
     const val ADMIN_FLEET = "admin/fleet"
     const val ADMIN_MORE = "admin/more"
 

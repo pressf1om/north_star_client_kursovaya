@@ -30,4 +30,12 @@
 
     <string name="people_search_hint">Логин, роль</string>
     <string name="action_retry">Обновить</string>
+
+    <string name="assign_role_title">Выдать роль</string>
+    <string name="assign_role_label">Роль</string>
+    <string name="assign_role_car_label">Машина из парка</string>
+    <string name="assign_role_confirm">Подтвердить</string>
+    <string name="assign_role_no_cars">Нет машин в парке</string>
+    <string name="role_dispatcher">Диспетчер</string>
+    <string name="role_driver">Водитель</string>
 </resources>
