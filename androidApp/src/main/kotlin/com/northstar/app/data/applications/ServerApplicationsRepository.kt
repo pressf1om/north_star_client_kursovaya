@@ -12,6 +12,10 @@ class ServerApplicationsRepository @Inject constructor(
     private val applicationsApi: ApplicationsApi,
 ) : ApplicationsRepository {
 
+    override suspend fun listApplications(): Result<List<ApplicationDto>> = runCatching {
+        applicationsApi.listApplications().applications
+    }
+
     override suspend fun createApplication(
         coordStart: String,
         coordEnd: String,

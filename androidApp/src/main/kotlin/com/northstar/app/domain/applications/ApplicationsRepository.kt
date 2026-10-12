@@ -3,6 +3,8 @@ package com.northstar.app.domain.applications
 import com.northstar.app.data.api.ApplicationDto
 
 interface ApplicationsRepository {
+    suspend fun listApplications(): Result<List<ApplicationDto>>
+
     suspend fun createApplication(
         coordStart: String,
         coordEnd: String,

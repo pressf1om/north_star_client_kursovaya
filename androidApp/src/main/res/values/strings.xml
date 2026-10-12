@@ -29,6 +29,10 @@
     <string name="tab_placeholder">Экран появится на следующем этапе</string>
 
     <string name="people_search_hint">Логин, роль</string>
+    <string name="search_reset">Сброс</string>
+    <string name="search_clear_history">Очистить историю</string>
+    <string name="search_nothing_found">Ничего не найдено</string>
+    <string name="search_error">Ошибка поиска</string>
     <string name="action_retry">Обновить</string>
 
     <string name="assign_role_title">Выдать роль</string>
@@ -42,6 +46,7 @@
     <string name="fleet_search_hint">Номер, заявка, город</string>
     <string name="fleet_new_application">Новая заявка</string>
     <string name="fleet_no_trip">Нет рейса</string>
+    <string name="fleet_application_line">Заявка №%1$d · %2$s</string>
     <string name="fleet_trip_in_progress">Рейс в работе</string>
     <string name="fleet_add_car">Добавить машину</string>
     <string name="fleet_add_car_title">Новая машина</string>

@@ -24,6 +24,9 @@ import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
@@ -38,7 +41,10 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.northstar.app.R
 import com.northstar.app.data.api.UserDto
 import com.northstar.app.presentation.session.UserStatus
+import com.northstar.app.presentation.components.NorthStarInlineSearchBar
+import com.northstar.app.presentation.components.NorthStarSearchHistoryPanel
 import com.northstar.app.presentation.components.NorthStarTabTopBar
+import com.northstar.app.presentation.search.SearchPhase
 import com.northstar.app.ui.components.LicensePlate
 import com.northstar.app.ui.theme.Amber
 import com.northstar.app.ui.theme.CardBorder
@@ -75,8 +81,43 @@ fun PeopleScreen(
                 .background(MaterialTheme.colorScheme.background)
                 .padding(horizontal = 14.dp, vertical = 12.dp),
         ) {
-            PeopleSearchPlaceholder()
+            var savedQuery by rememberSaveable { mutableStateOf("") }
+            if (savedQuery != uiState.searchQuery && uiState.searchQuery.isNotEmpty()) {
+                savedQuery = uiState.searchQuery
+            }
+            NorthStarInlineSearchBar(
+                query = savedQuery,
+                onQueryChange = { value ->
+                    savedQuery = value
+                    viewModel.onSearchQueryChange(value)
+                },
+                onSubmit = viewModel::submitSearch,
+                onClear = {
+                    savedQuery = ""
+                    viewModel.clearSearch()
+                },
+                placeholder = stringResource(R.string.people_search_hint),
+            )
+            if (uiState.searchPhase == SearchPhase.IDLE && savedQuery.isBlank()) {
+                NorthStarSearchHistoryPanel(
+                    history = uiState.searchHistory,
+                    onPick = { picked ->
+                        savedQuery = picked
+                        viewModel.searchFromHistory(picked)
+                    },
+                    onClearHistory = viewModel::clearHistory,
+                    modifier = Modifier.padding(top = 8.dp, bottom = 8.dp),
+                )
+            }
             when {
+                uiState.searchPhase == SearchPhase.LOADING -> {
+                    CircularProgressIndicator(
+                        modifier = Modifier
+                            .padding(top = 16.dp)
+                            .align(Alignment.CenterHorizontally),
+                        color = Ink,
+                    )
+                }
                 uiState.isLoading -> {
                     Box(
                         modifier = Modifier.fillMaxWidth().padding(top = 32.dp),
@@ -85,20 +126,30 @@ fun PeopleScreen(
                         CircularProgressIndicator(color = Ink)
                     }
                 }
-                uiState.errorMessage != null -> {
+                uiState.loadError != null || uiState.searchPhase == SearchPhase.ERROR -> {
                     Column(
                         modifier = Modifier.fillMaxWidth().padding(top = 24.dp),
                         horizontalAlignment = Alignment.CenterHorizontally,
                     ) {
-                        Text(text = uiState.errorMessage!!, color = MutedBrown)
+                        Text(
+                            text = uiState.loadError ?: stringResource(R.string.search_error),
+                            color = MutedBrown,
+                        )
                         TextButton(onClick = viewModel::load) {
                             Text(stringResource(R.string.action_retry))
                         }
                     }
                 }
+                uiState.searchPhase == SearchPhase.EMPTY -> {
+                    Text(
+                        text = stringResource(R.string.search_nothing_found),
+                        color = MutedBrown,
+                        modifier = Modifier.padding(top = 24.dp),
+                    )
+                }
                 else -> {
                     LazyColumn(verticalArrangement = Arrangement.spacedBy(10.dp)) {
-                        items(uiState.users, key = { it.id }) { user ->
+                        items(uiState.displayUsers, key = { it.id }) { user ->
                             PeopleUserCard(
                                 user = user,
                                 onClick = if (user.status == UserStatus.PENDING) {
@@ -113,28 +164,6 @@ fun PeopleScreen(
             }
         }
     }
-}
-
-@Composable
-private fun PeopleSearchPlaceholder() {
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .height(44.dp)
-            .background(CreamInput)
-            .border(2.dp, Ink)
-            .padding(horizontal = 10.dp),
-        verticalAlignment = Alignment.CenterVertically,
-    ) {
-        Text(text = "⌕", fontWeight = FontWeight.Bold, color = Ink)
-        Text(
-            text = stringResource(R.string.people_search_hint),
-            modifier = Modifier.padding(start = 8.dp),
-            color = MutedBrown,
-            fontSize = 14.sp,
-        )
-    }
-    Spacer(modifier = Modifier.height(12.dp))
 }
 
 @Composable
