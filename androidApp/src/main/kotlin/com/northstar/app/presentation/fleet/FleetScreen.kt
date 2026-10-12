@@ -80,8 +80,10 @@ fun FleetScreen(
                 .padding(horizontal = 14.dp, vertical = 12.dp),
         ) {
             FleetSearchPlaceholder()
-            FleetMapPlaceholder()
-            Spacer(modifier = Modifier.height(12.dp))
+            FleetNorthStarMap(
+                transitRoutes = emptyList(),
+                modifier = Modifier.padding(bottom = 12.dp),
+            )
             NorthStarPrimaryButton(
                 text = stringResource(R.string.fleet_new_application),
                 onClick = { /* C12 */ },
@@ -200,34 +202,6 @@ private fun FleetSearchPlaceholder() {
             color = MutedBrown,
             fontSize = 14.sp,
         )
-    }
-    Spacer(modifier = Modifier.height(12.dp))
-}
-
-@Composable
-private fun FleetMapPlaceholder() {
-    Box(
-        modifier = Modifier
-            .fillMaxWidth()
-            .height(132.dp)
-            .background(Navy),
-    ) {
-        listOf(
-            Triple("СПб", 14.dp, 4.dp),
-            Triple("Москва", 42.dp, 22.dp),
-            Triple("Казань", 118.dp, 40.dp),
-            Triple("Самара", 168.dp, 54.dp),
-            Triple("Екб", 220.dp, 30.dp),
-            Triple("Нск", 300.dp, 44.dp),
-        ).forEach { (name, x, y) ->
-            Text(
-                text = name,
-                color = Amber,
-                fontSize = 10.sp,
-                fontWeight = FontWeight.ExtraBold,
-                modifier = Modifier.offset(x = x, y = y),
-            )
-        }
     }
     Spacer(modifier = Modifier.height(12.dp))
 }

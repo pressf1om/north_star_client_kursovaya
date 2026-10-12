@@ -12,8 +12,8 @@ class ServerCarsRepository @Inject constructor(
     private val carsApi: CarsApi,
 ) : CarsRepository {
 
-    override suspend fun listCars(): Result<List<CarDto>> = runCatching {
-        carsApi.listCars().cars
+    override suspend fun listCars(status: String?): Result<List<CarDto>> = runCatching {
+        carsApi.listCars(status).cars
     }
 
     override suspend fun createCar(carNumber: String, model: String): Result<CarDto> = runCatching {

@@ -4,10 +4,11 @@ import kotlinx.serialization.Serializable
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
+import retrofit2.http.Query
 
 interface CarsApi {
     @GET("api/cars")
-    suspend fun listCars(): CarsListResponseDto
+    suspend fun listCars(@Query("status") status: String? = null): CarsListResponseDto
 
     @POST("api/cars")
     suspend fun createCar(@Body body: CreateCarRequestDto): CarDto
