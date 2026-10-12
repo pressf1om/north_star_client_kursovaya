@@ -5,12 +5,14 @@ import com.northstar.app.data.applications.ServerCompletedApplicationsRepository
 import com.northstar.app.data.drivermessages.ServerDriverMessagesRepository
 import com.northstar.app.data.local.RoomCarNotesRepository
 import com.northstar.app.data.routes.ServerRoutesRepository
+import com.northstar.app.data.routesettings.ServerRouteSettingsRepository
 import com.northstar.app.data.auth.ServerUserAuthRepository
 import com.northstar.app.domain.applications.ApplicationsRepository
 import com.northstar.app.domain.applications.CompletedApplicationsRepository
 import com.northstar.app.domain.drivermessages.DriverMessagesRepository
 import com.northstar.app.domain.notes.CarNotesRepository
 import com.northstar.app.domain.routes.RoutesRepository
+import com.northstar.app.domain.routesettings.RouteSettingsRepository
 import com.northstar.app.data.cars.ServerCarsRepository
 import com.northstar.app.data.users.ServerUsersRepository
 import com.northstar.app.domain.cars.CarsRepository
@@ -58,4 +60,8 @@ abstract class RepositoryModule {
     @Binds
     @Singleton
     abstract fun bindRoutesRepository(impl: ServerRoutesRepository): RoutesRepository
+
+    @Binds
+    @Singleton
+    abstract fun bindRouteSettingsRepository(impl: ServerRouteSettingsRepository): RouteSettingsRepository
 }

@@ -5,6 +5,7 @@ import com.northstar.app.BuildConfig
 import com.northstar.app.data.api.ApplicationsApi
 import com.northstar.app.data.api.CompletedApplicationsApi
 import com.northstar.app.data.api.DriverMessagesApi
+import com.northstar.app.data.api.RouteSettingsApi
 import com.northstar.app.data.api.RoutesApi
 import com.northstar.app.data.api.AuthApi
 import com.northstar.app.data.api.CarsApi
@@ -91,4 +92,9 @@ object NetworkModule {
     @Singleton
     fun provideRoutesApi(retrofit: Retrofit): RoutesApi =
         retrofit.create(RoutesApi::class.java)
+
+    @Provides
+    @Singleton
+    fun provideRouteSettingsApi(retrofit: Retrofit): RouteSettingsApi =
+        retrofit.create(RouteSettingsApi::class.java)
 }

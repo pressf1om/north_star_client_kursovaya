@@ -116,4 +116,11 @@
     <string name="admin_route_autodor_km">Километры Автодор</string>
     <string name="admin_route_oll_km">Общие километры</string>
     <string name="admin_route_cities">Города по пути</string>
+
+    <string name="admin_tariffs_menu">Тарифы маршрута</string>
+    <string name="admin_tariffs_title">Тарифы</string>
+    <string name="admin_tariffs_subtitle">Новые значения заменяют предыдущие (в базе остаётся один набор).</string>
+    <string name="admin_tariff_driver_salary">Зарплата водителя за км</string>
+    <string name="admin_tariff_platon_cost">Стоимость км по Платону</string>
+    <string name="admin_tariffs_saved">Тарифы сохранены</string>
 </resources>

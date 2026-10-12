@@ -15,6 +15,7 @@ object MainRoutes {
     const val ADMIN_MORE = "admin/more"
     const val ADMIN_ROUTES = "admin/routes"
     const val ADMIN_NEW_ROUTE = "admin/routes/new"
+    const val ADMIN_ROUTE_SETTINGS = "admin/route_settings"
 
     const val DISPATCH_FLEET = "dispatch/fleet"
     const val DISPATCH_ARCHIVE = "dispatch/archive"

@@ -24,6 +24,7 @@ import com.northstar.app.ui.theme.northStarSurfaceCard
 fun AdminMoreScreen(
     user: CurrentUser,
     onRoutesClick: () -> Unit,
+    onTariffsClick: () -> Unit,
     onThemeClick: () -> Unit,
 ) {
     Column(modifier = Modifier.fillMaxSize()) {
@@ -56,6 +57,10 @@ fun AdminMoreScreen(
             AdminMoreMenuItem(
                 title = stringResource(R.string.admin_routes_menu),
                 onClick = onRoutesClick,
+            )
+            AdminMoreMenuItem(
+                title = stringResource(R.string.admin_tariffs_menu),
+                onClick = onTariffsClick,
             )
         }
     }
