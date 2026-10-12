@@ -17,6 +17,7 @@ object MainRoutes {
     const val DISPATCH_FLEET = "dispatch/fleet"
     const val DISPATCH_ARCHIVE = "dispatch/archive"
     const val DISPATCH_MORE = "dispatch/more"
+    const val DISPATCH_MESSAGES = "dispatch/messages"
 
     const val DRIVER_TRIP = "driver/trip"
     const val DRIVER_ARCHIVE = "driver/archive"

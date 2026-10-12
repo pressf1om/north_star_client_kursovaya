@@ -20,13 +20,17 @@ import com.northstar.app.presentation.auth.WaitingScreen
 import com.northstar.app.presentation.main.MainShell
 import com.northstar.app.presentation.session.SessionStatus
 import com.northstar.app.presentation.session.SessionViewModel
+import com.northstar.app.presentation.theme.ThemeViewModel
 import com.northstar.app.ui.theme.NorthStarTheme
 
 @Composable
 fun AppNavigation(
     sessionViewModel: SessionViewModel = hiltViewModel(),
+    themeViewModel: ThemeViewModel = hiltViewModel(),
 ) {
-    NorthStarTheme {
+    val isDarkTheme by themeViewModel.isDarkTheme.collectAsStateWithLifecycle()
+
+    NorthStarTheme(darkTheme = isDarkTheme) {
         Surface(
             modifier = Modifier.fillMaxSize(),
             color = MaterialTheme.colorScheme.background,
@@ -73,7 +77,13 @@ fun AppNavigation(
                     } else if (user.isPending) {
                         WaitingScreen(onSignOut = sessionViewModel::signOut)
                     } else {
-                        MainShell(user = user, onSignOut = sessionViewModel::signOut)
+                        MainShell(
+                            user = user,
+                            onSignOut = sessionViewModel::signOut,
+                            isDarkTheme = isDarkTheme,
+                            onThemeClick = themeViewModel::toggleTheme,
+                            onDarkThemeChange = themeViewModel::setDarkTheme,
+                        )
                     }
                 }
             }

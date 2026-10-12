@@ -62,6 +62,7 @@ import com.northstar.app.ui.theme.StatusGreen
 fun FleetScreen(
     canAddCar: Boolean,
     onNewApplication: () -> Unit,
+    onThemeClick: () -> Unit,
     viewModel: FleetViewModel = hiltViewModel(),
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
@@ -79,7 +80,7 @@ fun FleetScreen(
     Column(modifier = Modifier.fillMaxSize()) {
         NorthStarTabTopBar(
             title = stringResource(R.string.tab_fleet),
-            onThemeClick = { /* C17 */ },
+            onThemeClick = onThemeClick,
         )
         Column(
             modifier = Modifier

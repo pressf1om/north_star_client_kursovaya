@@ -9,6 +9,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Switch
+import androidx.compose.material3.SwitchDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -22,21 +24,26 @@ import com.northstar.app.presentation.components.NorthStarTabTopBar
 import com.northstar.app.presentation.session.CurrentUser
 import com.northstar.app.presentation.session.UserStatus
 import com.northstar.app.ui.components.LicensePlate
+import com.northstar.app.ui.theme.Amber
 import com.northstar.app.ui.theme.CardBorder
 import com.northstar.app.ui.theme.CreamInput
 import com.northstar.app.ui.theme.Ink
 import com.northstar.app.ui.theme.MutedBrown
+import com.northstar.app.ui.theme.Navy
 
 @Composable
 fun DriverMoreScreen(
     user: CurrentUser,
+    isDarkTheme: Boolean,
+    onDarkThemeChange: (Boolean) -> Unit,
     onHelpClick: () -> Unit,
     onSignOut: () -> Unit,
+    onThemeClick: () -> Unit,
 ) {
     Column(modifier = Modifier.fillMaxSize()) {
         NorthStarTabTopBar(
             title = stringResource(R.string.driver_cabinet_title),
-            onThemeClick = { /* C17 */ },
+            onThemeClick = onThemeClick,
         )
         Column(
             modifier = Modifier
@@ -69,6 +76,36 @@ fun DriverMoreScreen(
                         LicensePlate(number = user.carNumber!!)
                     }
                 }
+            }
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 10.dp)
+                    .background(CreamInput)
+                    .border(1.dp, CardBorder)
+                    .padding(horizontal = 14.dp, vertical = 10.dp),
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                Column(modifier = Modifier.weight(1f)) {
+                    Text(
+                        text = stringResource(R.string.theme_dark),
+                        fontWeight = FontWeight.ExtraBold,
+                        color = Ink,
+                    )
+                    Text(
+                        text = stringResource(R.string.theme_dark_subtitle),
+                        color = MutedBrown,
+                        fontSize = 12.sp,
+                    )
+                }
+                Switch(
+                    checked = isDarkTheme,
+                    onCheckedChange = onDarkThemeChange,
+                    colors = SwitchDefaults.colors(
+                        checkedThumbColor = Amber,
+                        checkedTrackColor = Navy,
+                    ),
+                )
             }
             DriverMoreMenuItem(
                 title = stringResource(R.string.driver_help_menu),

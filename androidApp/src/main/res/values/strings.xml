@@ -87,4 +87,13 @@
     <string name="driver_help_message_hint">Опишите проблему</string>
     <string name="driver_help_send">Отправить</string>
     <string name="driver_help_sent">Сообщение отправлено</string>
+
+    <string name="dispatch_messages_menu">Сообщения водителей</string>
+    <string name="dispatch_messages_title">Сообщения</string>
+    <string name="dispatch_messages_filter_hint">Фильтр по номеру машины</string>
+    <string name="dispatch_messages_empty">Сообщений нет</string>
+    <string name="dispatch_message_id">№%1$d</string>
+
+    <string name="theme_dark">Тёмная тема</string>
+    <string name="theme_dark_subtitle">Только на этом телефоне</string>
 </resources>

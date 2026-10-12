@@ -56,6 +56,7 @@ import com.northstar.app.ui.theme.StatusGreen
 @Composable
 fun PeopleScreen(
     onAssignRole: (Int) -> Unit,
+    onThemeClick: () -> Unit,
     viewModel: PeopleViewModel = hiltViewModel(),
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
@@ -73,7 +74,7 @@ fun PeopleScreen(
     Column(modifier = Modifier.fillMaxSize()) {
         NorthStarTabTopBar(
             title = stringResource(R.string.tab_people),
-            onThemeClick = { /* C17 */ },
+            onThemeClick = onThemeClick,
         )
         Column(
             modifier = Modifier

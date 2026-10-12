@@ -41,6 +41,7 @@ import com.northstar.app.ui.theme.StatusGreen
 @Composable
 fun ArchiveScreen(
     carNumber: String?,
+    onThemeClick: () -> Unit,
     viewModel: ArchiveViewModel = hiltViewModel(),
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
@@ -60,7 +61,7 @@ fun ArchiveScreen(
     Column(modifier = Modifier.fillMaxSize()) {
         NorthStarTabTopBar(
             title = stringResource(R.string.archive_title),
-            onThemeClick = { /* C17 */ },
+            onThemeClick = onThemeClick,
         )
         Column(
             modifier = Modifier

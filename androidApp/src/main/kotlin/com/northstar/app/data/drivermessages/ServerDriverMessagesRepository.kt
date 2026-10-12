@@ -21,4 +21,8 @@ class ServerDriverMessagesRepository @Inject constructor(
                 ),
             )
         }
+
+    override suspend fun listMessages(carNumber: String?): Result<List<DriverMessageDto>> = runCatching {
+        driverMessagesApi.listMessages(carNumber?.trim()?.takeIf { it.isNotEmpty() }).messages
+    }
 }

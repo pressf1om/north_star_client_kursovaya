@@ -18,6 +18,8 @@ import com.northstar.app.R
 import com.northstar.app.presentation.components.BottomTab
 import com.northstar.app.presentation.components.MainBottomBar
 import com.northstar.app.presentation.archive.ArchiveScreen
+import com.northstar.app.presentation.dispatch.DispatchMessagesScreen
+import com.northstar.app.presentation.dispatch.DispatchMoreScreen
 import com.northstar.app.presentation.driver.DriverHelpScreen
 import com.northstar.app.presentation.driver.DriverMoreScreen
 import com.northstar.app.presentation.driver.DriverTripScreen
@@ -32,6 +34,9 @@ import com.northstar.app.presentation.session.UserStatus
 fun MainShell(
     user: CurrentUser,
     onSignOut: () -> Unit,
+    isDarkTheme: Boolean,
+    onThemeClick: () -> Unit,
+    onDarkThemeChange: (Boolean) -> Unit,
 ) {
     val navController = rememberNavController()
     val backStackEntry by navController.currentBackStackEntryAsState()
@@ -69,6 +74,7 @@ fun MainShell(
                     onAssignRole = { userId ->
                         navController.navigate(MainRoutes.adminAssignRole(userId))
                     },
+                    onThemeClick = onThemeClick,
                 )
             }
             composable(
@@ -86,6 +92,7 @@ fun MainShell(
                 FleetScreen(
                     canAddCar = user.status == UserStatus.ADMIN,
                     onNewApplication = { navController.navigate(MainRoutes.NEW_APPLICATION) },
+                    onThemeClick = onThemeClick,
                 )
             }
             composable(MainRoutes.NEW_APPLICATION) {
@@ -104,28 +111,38 @@ fun MainShell(
                 FleetScreen(
                     canAddCar = false,
                     onNewApplication = { navController.navigate(MainRoutes.NEW_APPLICATION) },
+                    onThemeClick = onThemeClick,
                 )
             }
             composable(MainRoutes.DISPATCH_ARCHIVE) {
-                ArchiveScreen(carNumber = null)
+                ArchiveScreen(carNumber = null, onThemeClick = onThemeClick)
             }
             composable(MainRoutes.DISPATCH_MORE) {
-                TabPlaceholderScreen(
-                    title = stringResource(R.string.tab_more),
-                    subtitle = user.username,
+                DispatchMoreScreen(
+                    user = user,
+                    onMessagesClick = { navController.navigate(MainRoutes.DISPATCH_MESSAGES) },
+                    onThemeClick = onThemeClick,
+                )
+            }
+            composable(MainRoutes.DISPATCH_MESSAGES) {
+                DispatchMessagesScreen(
+                    onBack = { navController.popBackStack() },
                 )
             }
             composable(MainRoutes.DRIVER_TRIP) {
                 DriverTripScreen(carNumber = user.carNumber)
             }
             composable(MainRoutes.DRIVER_ARCHIVE) {
-                ArchiveScreen(carNumber = user.carNumber)
+                ArchiveScreen(carNumber = user.carNumber, onThemeClick = onThemeClick)
             }
             composable(MainRoutes.DRIVER_MORE) {
                 DriverMoreScreen(
                     user = user,
+                    isDarkTheme = isDarkTheme,
+                    onDarkThemeChange = onDarkThemeChange,
                     onHelpClick = { navController.navigate(MainRoutes.DRIVER_HELP) },
                     onSignOut = onSignOut,
+                    onThemeClick = onThemeClick,
                 )
             }
             composable(MainRoutes.DRIVER_HELP) {
