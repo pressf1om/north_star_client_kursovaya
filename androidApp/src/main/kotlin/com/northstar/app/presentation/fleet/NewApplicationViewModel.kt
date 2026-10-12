@@ -3,6 +3,8 @@ package com.northstar.app.presentation.fleet
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.northstar.app.data.api.CarDto
+import com.northstar.app.data.remote.apiErrorMessage
+import com.northstar.app.data.remote.isValidCoordinatePair
 import com.northstar.app.domain.applications.ApplicationsRepository
 import com.northstar.app.domain.cars.CarsRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -96,20 +98,49 @@ class NewApplicationViewModel @Inject constructor(
             _uiState.update { it.copy(errorMessage = "Нет свободных машин") }
             return
         }
+        val coordStart = state.coordStart.trim()
+        val coordEnd = state.coordEnd.trim()
+        val weight = state.weight.trim()
+        val date = state.dateOfStart.trim()
+        when {
+            !isValidCoordinatePair(coordStart) -> {
+                _uiState.update {
+                    it.copy(errorMessage = "Координаты начала: широта,долгота (например 55.75,37.61)")
+                }
+                return
+            }
+            !isValidCoordinatePair(coordEnd) -> {
+                _uiState.update {
+                    it.copy(errorMessage = "Координаты конца: широта,долгота (например 55.75,37.61)")
+                }
+                return
+            }
+            date.isEmpty() -> {
+                _uiState.update { it.copy(errorMessage = "Укажите дату выезда") }
+                return
+            }
+            weight.isEmpty() -> {
+                _uiState.update { it.copy(errorMessage = "Укажите вес груза") }
+                return
+            }
+        }
         viewModelScope.launch {
             _uiState.update { it.copy(isSaving = true, errorMessage = null) }
             applicationsRepository.createApplication(
-                coordStart = state.coordStart,
-                coordEnd = state.coordEnd,
-                dateOfStart = state.dateOfStart,
-                weight = state.weight,
+                coordStart = coordStart,
+                coordEnd = coordEnd,
+                dateOfStart = date,
+                weight = weight,
                 carNow = car,
             ).onSuccess {
                 _uiState.update { it.copy(isSaving = false) }
                 onSuccess()
-            }.onFailure {
+            }.onFailure { error ->
                 _uiState.update {
-                    it.copy(isSaving = false, errorMessage = "Не удалось создать заявку")
+                    it.copy(
+                        isSaving = false,
+                        errorMessage = error.apiErrorMessage("Не удалось создать заявку"),
+                    )
                 }
             }
         }

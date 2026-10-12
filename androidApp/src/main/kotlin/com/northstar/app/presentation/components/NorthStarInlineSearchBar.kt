@@ -1,7 +1,5 @@
 package com.northstar.app.presentation.components
 
-import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -11,6 +9,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
@@ -23,9 +22,7 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.northstar.app.R
-import com.northstar.app.ui.theme.CreamInput
-import com.northstar.app.ui.theme.Ink
-import com.northstar.app.ui.theme.MutedBrown
+import com.northstar.app.ui.theme.northStarSurfaceCard
 
 @Composable
 fun NorthStarInlineSearchBar(
@@ -36,16 +33,17 @@ fun NorthStarInlineSearchBar(
     placeholder: String,
     modifier: Modifier = Modifier,
 ) {
+    val onSurface = MaterialTheme.colorScheme.onSurface
+    val muted = MaterialTheme.colorScheme.onSurfaceVariant
     Row(
         modifier = modifier
             .fillMaxWidth()
             .height(44.dp)
-            .background(CreamInput)
-            .border(2.dp, Ink)
+            .northStarSurfaceCard(borderWidth = 2.dp)
             .padding(horizontal = 10.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {
-        Text(text = "⌕", fontWeight = FontWeight.Bold, color = Ink)
+        Text(text = "⌕", fontWeight = FontWeight.Bold, color = onSurface)
         BasicTextField(
             value = query,
             onValueChange = onQueryChange,
@@ -54,15 +52,15 @@ fun NorthStarInlineSearchBar(
                 .padding(horizontal = 8.dp),
             singleLine = true,
             textStyle = androidx.compose.ui.text.TextStyle(
-                color = Ink,
+                color = onSurface,
                 fontSize = 14.sp,
             ),
-            cursorBrush = SolidColor(Ink),
+            cursorBrush = SolidColor(onSurface),
             keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search),
             keyboardActions = KeyboardActions(onSearch = { onSubmit() }),
             decorationBox = { inner ->
                 if (query.isEmpty()) {
-                    Text(text = placeholder, color = MutedBrown, fontSize = 14.sp)
+                    Text(text = placeholder, color = muted, fontSize = 14.sp)
                 }
                 inner()
             },
@@ -71,7 +69,7 @@ fun NorthStarInlineSearchBar(
             TextButton(onClick = onClear) {
                 Text(
                     text = stringResource(R.string.search_reset),
-                    color = Ink,
+                    color = onSurface,
                     fontWeight = FontWeight.Bold,
                     fontSize = 12.sp,
                 )
@@ -88,11 +86,12 @@ fun NorthStarSearchHistoryPanel(
     modifier: Modifier = Modifier,
 ) {
     if (history.isEmpty()) return
+    val onSurface = MaterialTheme.colorScheme.onSurface
+    val muted = MaterialTheme.colorScheme.onSurfaceVariant
     Column(
         modifier = modifier
             .fillMaxWidth()
-            .background(CreamInput)
-            .border(2.dp, Ink)
+            .northStarSurfaceCard(borderWidth = 2.dp)
             .padding(vertical = 4.dp),
     ) {
         history.forEach { item ->
@@ -102,7 +101,7 @@ fun NorthStarSearchHistoryPanel(
                     .fillMaxWidth()
                     .clickable { onPick(item) }
                     .padding(horizontal = 12.dp, vertical = 8.dp),
-                color = Ink,
+                color = onSurface,
                 fontSize = 14.sp,
             )
         }
@@ -110,7 +109,7 @@ fun NorthStarSearchHistoryPanel(
             onClick = onClearHistory,
             modifier = Modifier.align(Alignment.CenterHorizontally),
         ) {
-            Text(stringResource(R.string.search_clear_history), color = MutedBrown)
+            Text(stringResource(R.string.search_clear_history), color = muted)
         }
     }
 }

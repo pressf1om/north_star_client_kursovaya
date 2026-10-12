@@ -7,11 +7,15 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.northstar.app.presentation.theme.ThemeViewModel
 import com.northstar.app.ui.theme.Amber
 import com.northstar.app.ui.theme.CreamText
 import com.northstar.app.ui.theme.Navy
@@ -20,7 +24,9 @@ import com.northstar.app.ui.theme.Navy
 fun NorthStarTabTopBar(
     title: String,
     onThemeClick: () -> Unit,
+    themeViewModel: ThemeViewModel = hiltViewModel(),
 ) {
+    val isDarkTheme by themeViewModel.isDarkTheme.collectAsStateWithLifecycle()
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -36,7 +42,11 @@ fun NorthStarTabTopBar(
             modifier = Modifier.weight(1f),
         )
         TextButton(onClick = onThemeClick) {
-            Text(text = "☀", color = Amber, fontSize = 18.sp)
+            Text(
+                text = if (isDarkTheme) "🌙" else "☀",
+                color = Amber,
+                fontSize = 18.sp,
+            )
         }
     }
 }

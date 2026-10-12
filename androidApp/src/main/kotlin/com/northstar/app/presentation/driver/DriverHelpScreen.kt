@@ -1,7 +1,6 @@
 package com.northstar.app.presentation.driver
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -10,7 +9,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -25,11 +23,9 @@ import com.northstar.app.R
 import com.northstar.app.presentation.components.NorthStarBackTopBar
 import com.northstar.app.ui.components.LicensePlate
 import com.northstar.app.ui.components.NorthStarPrimaryButton
-import com.northstar.app.ui.theme.CardBorder
-import com.northstar.app.ui.theme.CreamInput
 import com.northstar.app.ui.theme.Ink
 import com.northstar.app.ui.theme.MutedBrown
-import com.northstar.app.ui.theme.Navy
+import com.northstar.app.ui.theme.northStarOutlinedFieldColors
 import com.northstar.app.ui.theme.StatusGreen
 
 @Composable
@@ -53,7 +49,7 @@ fun DriverHelpScreen(
         ) {
             Text(
                 text = stringResource(R.string.driver_help_subtitle),
-                color = MutedBrown,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
                 fontSize = 13.sp,
                 modifier = Modifier.padding(bottom = 12.dp),
             )
@@ -61,21 +57,24 @@ fun DriverHelpScreen(
                 text = stringResource(R.string.driver_help_car_label),
                 fontWeight = FontWeight.ExtraBold,
                 fontSize = 11.sp,
-                color = MutedBrown,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
                 letterSpacing = 1.sp,
             )
             Spacer(modifier = Modifier.height(6.dp))
             if (!carNumber.isNullOrBlank()) {
                 LicensePlate(number = carNumber)
             } else {
-                Text(stringResource(R.string.driver_help_no_car), color = MutedBrown)
+                Text(
+                    stringResource(R.string.driver_help_no_car),
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                )
             }
             Spacer(modifier = Modifier.height(16.dp))
             Text(
                 text = stringResource(R.string.driver_help_message_label),
                 fontWeight = FontWeight.ExtraBold,
                 fontSize = 11.sp,
-                color = MutedBrown,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
                 letterSpacing = 1.sp,
             )
             OutlinedTextField(
@@ -84,20 +83,14 @@ fun DriverHelpScreen(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(top = 6.dp)
-                    .background(CreamInput)
-                    .border(1.dp, CardBorder)
                     .height(120.dp),
                 placeholder = { Text(stringResource(R.string.driver_help_message_hint)) },
-                colors = OutlinedTextFieldDefaults.colors(
-                    focusedBorderColor = Navy,
-                    unfocusedBorderColor = CardBorder,
-                    cursorColor = Ink,
-                ),
+                colors = northStarOutlinedFieldColors(),
             )
             if (uiState.errorMessage != null) {
                 Text(
                     text = uiState.errorMessage!!,
-                    color = MutedBrown,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
                     modifier = Modifier.padding(top = 8.dp),
                 )
             }

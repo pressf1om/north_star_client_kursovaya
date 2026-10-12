@@ -47,10 +47,9 @@ import com.northstar.app.presentation.components.NorthStarTabTopBar
 import com.northstar.app.presentation.search.SearchPhase
 import com.northstar.app.ui.components.LicensePlate
 import com.northstar.app.ui.theme.Amber
-import com.northstar.app.ui.theme.CardBorder
-import com.northstar.app.ui.theme.CreamInput
 import com.northstar.app.ui.theme.Ink
 import com.northstar.app.ui.theme.MutedBrown
+import com.northstar.app.ui.theme.northStarSurfaceCard
 import com.northstar.app.ui.theme.StatusGreen
 
 @Composable
@@ -179,8 +178,7 @@ private fun PeopleUserCard(
             .fillMaxWidth()
             .height(IntrinsicSize.Min)
             .then(if (onClick != null) Modifier.clickable(onClick = onClick) else Modifier)
-            .background(CreamInput)
-            .border(1.dp, CardBorder),
+            .northStarSurfaceCard(),
     ) {
         Box(
             modifier = Modifier
@@ -202,12 +200,12 @@ private fun PeopleUserCard(
                         text = user.username,
                         fontWeight = FontWeight.ExtraBold,
                         fontSize = 15.sp,
-                        color = Ink,
+                        color = MaterialTheme.colorScheme.onSurface,
                     )
                     Text(
                         text = user.secondaryLine(),
                         fontSize = 13.sp,
-                        color = MutedBrown,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
                         modifier = Modifier.padding(top = 2.dp),
                     )
                 }

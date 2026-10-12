@@ -32,10 +32,9 @@ import com.northstar.app.R
 import com.northstar.app.data.api.ApplicationDto
 import com.northstar.app.presentation.components.NorthStarTabTopBar
 import com.northstar.app.ui.components.LicensePlate
-import com.northstar.app.ui.theme.CardBorder
-import com.northstar.app.ui.theme.CreamInput
 import com.northstar.app.ui.theme.Ink
 import com.northstar.app.ui.theme.MutedBrown
+import com.northstar.app.ui.theme.northStarSurfaceCard
 import com.northstar.app.ui.theme.StatusGreen
 
 @Composable
@@ -118,8 +117,7 @@ private fun ArchiveTripCard(
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .background(CreamInput)
-            .border(1.dp, CardBorder)
+            .northStarSurfaceCard()
             .padding(14.dp),
     ) {
         Row(
@@ -135,11 +133,11 @@ private fun ArchiveTripCard(
                     text = stringResource(R.string.archive_application_title, application.id),
                     fontWeight = FontWeight.ExtraBold,
                     fontSize = 16.sp,
-                    color = Ink,
+                    color = MaterialTheme.colorScheme.onSurface,
                 )
                 Text(
                     text = subtitle,
-                    color = MutedBrown,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
                     fontSize = 13.sp,
                     modifier = Modifier.padding(top = 4.dp),
                 )

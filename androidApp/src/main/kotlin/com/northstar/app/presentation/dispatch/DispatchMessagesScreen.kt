@@ -32,10 +32,9 @@ import com.northstar.app.data.api.DriverMessageDto
 import com.northstar.app.presentation.components.NorthStarBackTopBar
 import com.northstar.app.presentation.components.NorthStarInlineSearchBar
 import com.northstar.app.ui.components.LicensePlate
-import com.northstar.app.ui.theme.CardBorder
-import com.northstar.app.ui.theme.CreamInput
 import com.northstar.app.ui.theme.Ink
 import com.northstar.app.ui.theme.MutedBrown
+import com.northstar.app.ui.theme.northStarSurfaceCard
 
 @Composable
 fun DispatchMessagesScreen(
@@ -114,22 +113,21 @@ private fun DispatchMessageCard(message: DriverMessageDto) {
         modifier = Modifier
             .fillMaxWidth()
             .padding(bottom = 10.dp)
-            .background(CreamInput)
-            .border(1.dp, CardBorder)
+            .northStarSurfaceCard()
             .padding(14.dp),
     ) {
         Row(verticalAlignment = Alignment.CenterVertically) {
             LicensePlate(number = message.carNumber)
             Text(
                 text = stringResource(R.string.dispatch_message_id, message.id),
-                color = MutedBrown,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
                 fontSize = 12.sp,
                 modifier = Modifier.padding(start = 8.dp),
             )
         }
         Text(
             text = message.message,
-            color = Ink,
+            color = MaterialTheme.colorScheme.onSurface,
             fontSize = 14.sp,
             modifier = Modifier.padding(top = 10.dp),
         )

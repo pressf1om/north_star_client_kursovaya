@@ -19,10 +19,9 @@ import androidx.compose.ui.unit.dp
 import com.northstar.app.R
 import com.northstar.app.presentation.components.NorthStarTabTopBar
 import com.northstar.app.presentation.session.CurrentUser
-import com.northstar.app.ui.theme.CardBorder
-import com.northstar.app.ui.theme.CreamInput
 import com.northstar.app.ui.theme.Ink
 import com.northstar.app.ui.theme.MutedBrown
+import com.northstar.app.ui.theme.northStarSurfaceCard
 
 @Composable
 fun DispatchMoreScreen(
@@ -44,8 +43,7 @@ fun DispatchMoreScreen(
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .background(CreamInput)
-                    .border(1.dp, CardBorder)
+                    .northStarSurfaceCard()
                     .padding(14.dp),
             ) {
                 Text(
@@ -75,8 +73,7 @@ private fun DispatchMoreMenuItem(
         modifier = Modifier
             .fillMaxWidth()
             .padding(top = 10.dp)
-            .background(CreamInput)
-            .border(1.dp, CardBorder)
+            .northStarSurfaceCard()
             .clickable(onClick = onClick)
             .padding(14.dp),
         verticalAlignment = Alignment.CenterVertically,

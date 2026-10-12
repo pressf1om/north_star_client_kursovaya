@@ -25,10 +25,9 @@ import com.northstar.app.presentation.session.CurrentUser
 import com.northstar.app.presentation.session.UserStatus
 import com.northstar.app.ui.components.LicensePlate
 import com.northstar.app.ui.theme.Amber
-import com.northstar.app.ui.theme.CardBorder
-import com.northstar.app.ui.theme.CreamInput
 import com.northstar.app.ui.theme.Ink
 import com.northstar.app.ui.theme.MutedBrown
+import com.northstar.app.ui.theme.northStarSurfaceCard
 import com.northstar.app.ui.theme.Navy
 
 @Composable
@@ -54,8 +53,7 @@ fun DriverMoreScreen(
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .background(CreamInput)
-                    .border(1.dp, CardBorder)
+                    .northStarSurfaceCard()
                     .padding(14.dp),
             ) {
                 Row(verticalAlignment = Alignment.CenterVertically) {
@@ -64,11 +62,11 @@ fun DriverMoreScreen(
                             text = user.username,
                             fontWeight = FontWeight.ExtraBold,
                             fontSize = 16.sp,
-                            color = Ink,
+                            color = MaterialTheme.colorScheme.onSurface,
                         )
                         Text(
                             text = UserStatus.DRIVER,
-                            color = MutedBrown,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant,
                             fontSize = 13.sp,
                         )
                     }
@@ -81,8 +79,7 @@ fun DriverMoreScreen(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(top = 10.dp)
-                    .background(CreamInput)
-                    .border(1.dp, CardBorder)
+                    .northStarSurfaceCard()
                     .padding(horizontal = 14.dp, vertical = 10.dp),
                 verticalAlignment = Alignment.CenterVertically,
             ) {
@@ -90,11 +87,11 @@ fun DriverMoreScreen(
                     Text(
                         text = stringResource(R.string.theme_dark),
                         fontWeight = FontWeight.ExtraBold,
-                        color = Ink,
+                        color = MaterialTheme.colorScheme.onSurface,
                     )
                     Text(
                         text = stringResource(R.string.theme_dark_subtitle),
-                        color = MutedBrown,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
                         fontSize = 12.sp,
                     )
                 }
@@ -134,18 +131,22 @@ private fun DriverMoreMenuItem(
         modifier = Modifier
             .fillMaxWidth()
             .padding(top = 10.dp)
-            .background(CreamInput)
-            .border(1.dp, CardBorder)
+            .northStarSurfaceCard()
             .clickable(onClick = onClick)
             .padding(14.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {
         Column(modifier = Modifier.weight(1f)) {
-            Text(text = title, fontWeight = FontWeight.ExtraBold, color = Ink)
+            Text(text = title, fontWeight = FontWeight.ExtraBold, color = MaterialTheme.colorScheme.onSurface)
             if (subtitle != null) {
-                Text(text = subtitle, color = MutedBrown, fontSize = 12.sp)
+                Text(text = subtitle, color = MaterialTheme.colorScheme.onSurfaceVariant, fontSize = 12.sp)
             }
         }
-        Text(text = "›", color = Ink, fontWeight = FontWeight.Bold, fontSize = 18.sp)
+        Text(
+            text = "›",
+            color = MaterialTheme.colorScheme.onSurface,
+            fontWeight = FontWeight.Bold,
+            fontSize = 18.sp,
+        )
     }
 }

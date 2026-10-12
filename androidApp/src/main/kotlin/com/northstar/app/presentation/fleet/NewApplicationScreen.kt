@@ -1,5 +1,6 @@
 package com.northstar.app.presentation.fleet
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -33,9 +34,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.northstar.app.R
 import com.northstar.app.presentation.components.NorthStarBackTopBar
 import com.northstar.app.ui.components.NorthStarPrimaryButton
-import com.northstar.app.ui.theme.Ink
-import com.northstar.app.ui.theme.MutedBrown
-import com.northstar.app.ui.theme.Navy
+import com.northstar.app.ui.theme.northStarOutlinedFieldColors
 
 @Composable
 fun NewApplicationScreen(
@@ -53,6 +52,7 @@ fun NewApplicationScreen(
         Column(
             modifier = Modifier
                 .fillMaxSize()
+                .background(MaterialTheme.colorScheme.background)
                 .verticalScroll(rememberScrollState())
                 .padding(horizontal = 14.dp, vertical = 12.dp),
         ) {
@@ -60,13 +60,13 @@ fun NewApplicationScreen(
                 uiState.isLoadingCars -> {
                     CircularProgressIndicator(
                         modifier = Modifier.align(Alignment.CenterHorizontally),
-                        color = Ink,
+                        color = MaterialTheme.colorScheme.onSurface,
                     )
                 }
                 uiState.noFreeCars -> {
                     Text(
                         text = stringResource(R.string.new_application_no_free_cars),
-                        color = MutedBrown,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
                         fontWeight = FontWeight.Bold,
                         modifier = Modifier.padding(vertical = 24.dp),
                     )
@@ -100,7 +100,7 @@ fun NewApplicationScreen(
                         text = stringResource(R.string.new_application_free_car),
                         fontWeight = FontWeight.ExtraBold,
                         fontSize = 13.sp,
-                        color = Ink,
+                        color = MaterialTheme.colorScheme.onSurface,
                         modifier = Modifier.padding(top = 8.dp, bottom = 4.dp),
                     )
                     FreeCarDropdown(
@@ -111,7 +111,7 @@ fun NewApplicationScreen(
                     if (uiState.errorMessage != null) {
                         Text(
                             text = uiState.errorMessage!!,
-                            color = MutedBrown,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant,
                             modifier = Modifier.padding(top = 12.dp),
                         )
                     }
@@ -127,7 +127,7 @@ fun NewApplicationScreen(
                             modifier = Modifier
                                 .padding(top = 12.dp)
                                 .align(Alignment.CenterHorizontally),
-                            color = Ink,
+                            color = MaterialTheme.colorScheme.onSurface,
                         )
                     }
                 }
@@ -147,7 +147,7 @@ private fun FormField(
         text = label,
         fontWeight = FontWeight.ExtraBold,
         fontSize = 13.sp,
-        color = Ink,
+        color = MaterialTheme.colorScheme.onSurface,
         modifier = Modifier.padding(top = 8.dp, bottom = 4.dp),
     )
     OutlinedTextField(
@@ -156,10 +156,7 @@ private fun FormField(
         modifier = Modifier.fillMaxWidth(),
         singleLine = true,
         placeholder = { Text(placeholder) },
-        colors = OutlinedTextFieldDefaults.colors(
-            focusedBorderColor = Navy,
-            unfocusedBorderColor = Navy,
-        ),
+        colors = northStarOutlinedFieldColors(),
     )
 }
 
@@ -186,10 +183,7 @@ private fun FreeCarDropdown(
                 .menuAnchor()
                 .fillMaxWidth(),
             trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded) },
-            colors = OutlinedTextFieldDefaults.colors(
-                focusedBorderColor = Navy,
-                unfocusedBorderColor = Navy,
-            ),
+            colors = northStarOutlinedFieldColors(),
         )
         ExposedDropdownMenu(
             expanded = expanded,

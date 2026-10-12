@@ -41,11 +41,10 @@ import com.northstar.app.data.api.ApplicationDto
 import com.northstar.app.ui.components.LicensePlate
 import com.northstar.app.ui.components.NorthStarPrimaryButton
 import com.northstar.app.ui.theme.Amber
-import com.northstar.app.ui.theme.CardBorder
-import com.northstar.app.ui.theme.CreamInput
 import com.northstar.app.ui.theme.CreamText
 import com.northstar.app.ui.theme.Ink
 import com.northstar.app.ui.theme.MutedBrown
+import com.northstar.app.ui.theme.northStarSurfaceCard
 import com.northstar.app.ui.theme.Navy
 import com.northstar.app.ui.theme.StatusGreen
 
@@ -155,19 +154,18 @@ private fun TripCard(application: ApplicationDto) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .background(CreamInput)
-            .border(1.dp, CardBorder)
+            .northStarSurfaceCard()
             .padding(14.dp),
     ) {
         Text(
             text = stringResource(R.string.driver_trip_application_title, application.id),
             fontWeight = FontWeight.ExtraBold,
             fontSize = 16.sp,
-            color = Ink,
+            color = MaterialTheme.colorScheme.onSurface,
         )
         Text(
             text = "${DriverTripStatusUi.statusLabel(status)} · $weight",
-            color = MutedBrown,
+            color = MaterialTheme.colorScheme.onSurfaceVariant,
             fontSize = 13.sp,
             modifier = Modifier.padding(top = 4.dp),
         )
@@ -177,18 +175,18 @@ private fun TripCard(application: ApplicationDto) {
         Text(
             text = DriverTripStatusUi.question(status),
             fontWeight = FontWeight.ExtraBold,
-            color = Ink,
+            color = MaterialTheme.colorScheme.onSurface,
             fontSize = 15.sp,
         )
         Text(
             text = DriverTripStatusUi.nextHint(status),
-            color = MutedBrown,
+            color = MaterialTheme.colorScheme.onSurfaceVariant,
             fontSize = 13.sp,
             modifier = Modifier.padding(top = 4.dp),
         )
         Text(
             text = stringResource(R.string.driver_trip_date_start, application.dateOfStart),
-            color = MutedBrown,
+            color = MaterialTheme.colorScheme.onSurfaceVariant,
             fontSize = 12.sp,
             modifier = Modifier.padding(top = 8.dp),
         )
@@ -197,6 +195,7 @@ private fun TripCard(application: ApplicationDto) {
 
 @Composable
 private fun TripProgressBar(activeIndex: Int) {
+    val inactive = MaterialTheme.colorScheme.outline.copy(alpha = 0.45f)
     Row(
         modifier = Modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.spacedBy(4.dp),
@@ -206,7 +205,7 @@ private fun TripProgressBar(activeIndex: Int) {
             val color = when {
                 segment < activeIndex -> StatusGreen
                 segment == activeIndex -> Amber
-                else -> CardBorder
+                else -> inactive
             }
             Box(
                 modifier = Modifier

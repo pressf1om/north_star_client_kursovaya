@@ -51,12 +51,11 @@ import com.northstar.app.presentation.search.SearchPhase
 import com.northstar.app.ui.components.LicensePlate
 import com.northstar.app.ui.components.NorthStarPrimaryButton
 import com.northstar.app.ui.theme.Amber
-import com.northstar.app.ui.theme.CardBorder
-import com.northstar.app.ui.theme.CreamInput
 import com.northstar.app.ui.theme.Ink
 import com.northstar.app.ui.theme.MutedBrown
 import com.northstar.app.ui.theme.Navy
 import com.northstar.app.ui.theme.StatusGreen
+import com.northstar.app.ui.theme.northStarSurfaceCard
 
 @Composable
 fun FleetScreen(
@@ -259,8 +258,7 @@ private fun FleetCarCard(car: CarDto, application: ApplicationDto?) {
         modifier = Modifier
             .fillMaxWidth()
             .height(IntrinsicSize.Min)
-            .background(CreamInput)
-            .border(1.dp, CardBorder),
+            .northStarSurfaceCard(),
     ) {
         Box(
             modifier = Modifier
@@ -276,8 +274,13 @@ private fun FleetCarCard(car: CarDto, application: ApplicationDto?) {
             Row(verticalAlignment = Alignment.CenterVertically) {
                 LicensePlate(number = car.carNumber)
                 Column(modifier = Modifier.padding(start = 10.dp)) {
-                    Text(car.model, fontWeight = FontWeight.ExtraBold, color = Ink, fontSize = 15.sp)
-                    Text(subtitle, fontSize = 13.sp, color = MutedBrown)
+                    Text(
+                        car.model,
+                        fontWeight = FontWeight.ExtraBold,
+                        color = MaterialTheme.colorScheme.onSurface,
+                        fontSize = 15.sp,
+                    )
+                    Text(subtitle, fontSize = 13.sp, color = MaterialTheme.colorScheme.onSurfaceVariant)
                 }
             }
             Text(
