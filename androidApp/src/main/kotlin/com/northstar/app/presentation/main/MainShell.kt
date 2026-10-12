@@ -18,6 +18,7 @@ import com.northstar.app.R
 import com.northstar.app.presentation.components.BottomTab
 import com.northstar.app.presentation.components.MainBottomBar
 import com.northstar.app.presentation.fleet.FleetScreen
+import com.northstar.app.presentation.fleet.NewApplicationScreen
 import com.northstar.app.presentation.people.AssignRoleScreen
 import com.northstar.app.presentation.people.PeopleScreen
 import com.northstar.app.presentation.session.CurrentUser
@@ -78,7 +79,16 @@ fun MainShell(
                 )
             }
             composable(MainRoutes.ADMIN_FLEET) {
-                FleetScreen(canAddCar = user.status == UserStatus.ADMIN)
+                FleetScreen(
+                    canAddCar = user.status == UserStatus.ADMIN,
+                    onNewApplication = { navController.navigate(MainRoutes.NEW_APPLICATION) },
+                )
+            }
+            composable(MainRoutes.NEW_APPLICATION) {
+                NewApplicationScreen(
+                    onBack = { navController.popBackStack() },
+                    onCreated = { navController.popBackStack() },
+                )
             }
             composable(MainRoutes.ADMIN_MORE) {
                 TabPlaceholderScreen(
@@ -87,7 +97,10 @@ fun MainShell(
                 )
             }
             composable(MainRoutes.DISPATCH_FLEET) {
-                FleetScreen(canAddCar = false)
+                FleetScreen(
+                    canAddCar = false,
+                    onNewApplication = { navController.navigate(MainRoutes.NEW_APPLICATION) },
+                )
             }
             composable(MainRoutes.DISPATCH_ARCHIVE) {
                 TabPlaceholderScreen(

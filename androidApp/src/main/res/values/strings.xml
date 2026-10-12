@@ -49,4 +49,13 @@
     <string name="fleet_field_model">Модель</string>
     <string name="action_save">Сохранить</string>
     <string name="action_cancel">Отмена</string>
+
+    <string name="new_application_coord_start">Координаты начала</string>
+    <string name="new_application_coord_end">Координаты конца</string>
+    <string name="new_application_coord_hint">широта,долгота</string>
+    <string name="new_application_date">Дата выезда</string>
+    <string name="new_application_weight">Вес, т</string>
+    <string name="new_application_free_car">Свободная машина</string>
+    <string name="new_application_create">Создать</string>
+    <string name="new_application_no_free_cars">Нет свободных машин</string>
 </resources>

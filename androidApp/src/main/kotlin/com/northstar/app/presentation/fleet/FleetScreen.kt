@@ -54,6 +54,7 @@ import com.northstar.app.ui.theme.StatusGreen
 @Composable
 fun FleetScreen(
     canAddCar: Boolean,
+    onNewApplication: () -> Unit,
     viewModel: FleetViewModel = hiltViewModel(),
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
@@ -86,7 +87,7 @@ fun FleetScreen(
             )
             NorthStarPrimaryButton(
                 text = stringResource(R.string.fleet_new_application),
-                onClick = { /* C12 */ },
+                onClick = onNewApplication,
                 modifier = Modifier.fillMaxWidth(),
             )
             if (canAddCar) {
