@@ -26,6 +26,7 @@ fun AdminMoreScreen(
     onRoutesClick: () -> Unit,
     onTariffsClick: () -> Unit,
     onAnalyticsClick: () -> Unit,
+    onAboutClick: () -> Unit,
     onThemeClick: () -> Unit,
 ) {
     Column(modifier = Modifier.fillMaxSize()) {
@@ -66,6 +67,10 @@ fun AdminMoreScreen(
             AdminMoreMenuItem(
                 title = stringResource(R.string.analytics_menu),
                 onClick = onAnalyticsClick,
+            )
+            AdminMoreMenuItem(
+                title = stringResource(R.string.about_menu),
+                onClick = onAboutClick,
             )
         }
     }

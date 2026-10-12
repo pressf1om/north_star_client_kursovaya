@@ -145,4 +145,17 @@
     <string name="analytics_number_road_line">Рейс №%1$d</string>
     <string name="analytics_dates_line">%1$s — %2$s</string>
     <string name="analytics_final_cost">Итого: %1$.2f</string>
+
+    <string name="about_menu">О проекте</string>
+    <string name="about_title">О проекте</string>
+    <string name="about_heading">North Star Logistics</string>
+    <string name="about_lead">Клиент-серверное приложение для учёта рейсов автопарка: диспетчерская работает в мобильном клиенте, данные хранятся на сервере Ktor и PostgreSQL.</string>
+    <string name="about_features_title">Возможности</string>
+    <string name="about_feature_1">Роли администратора, диспетчера и водителя в одном приложении</string>
+    <string name="about_feature_2">Автопарк, заявки, карта транзита и архив завершённых рейсов</string>
+    <string name="about_feature_3">Справочник маршрутов, тарифы и аналитика стоимости перевозки</string>
+    <string name="about_feature_4">Сообщения водителей диспетчеру с экрана «Помощь»</string>
+    <string name="about_feature_5">Мобильный кабинет водителя: статусы рейса и локальные заметки по машине</string>
+    <string name="about_feature_6">Тёмная тема оформления на устройстве</string>
+    <string name="about_footer">Проект разработан в рамках курсовой работы. Содержимое экрана статично и не загружается с сервера.</string>
 </resources>

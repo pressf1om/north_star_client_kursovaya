@@ -28,6 +28,7 @@ fun DispatchMoreScreen(
     user: CurrentUser,
     onMessagesClick: () -> Unit,
     onAnalyticsClick: () -> Unit,
+    onAboutClick: () -> Unit,
     onThemeClick: () -> Unit,
 ) {
     Column(modifier = Modifier.fillMaxSize()) {
@@ -64,6 +65,10 @@ fun DispatchMoreScreen(
             DispatchMoreMenuItem(
                 title = stringResource(R.string.analytics_menu),
                 onClick = onAnalyticsClick,
+            )
+            DispatchMoreMenuItem(
+                title = stringResource(R.string.about_menu),
+                onClick = onAboutClick,
             )
         }
     }
