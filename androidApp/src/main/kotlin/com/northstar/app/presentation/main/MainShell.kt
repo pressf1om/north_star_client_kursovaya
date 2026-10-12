@@ -17,6 +17,9 @@ import com.northstar.app.MainRoutes
 import com.northstar.app.R
 import com.northstar.app.presentation.components.BottomTab
 import com.northstar.app.presentation.components.MainBottomBar
+import com.northstar.app.presentation.admin.AdminMoreScreen
+import com.northstar.app.presentation.admin.NewRouteScreen
+import com.northstar.app.presentation.admin.RoutesListScreen
 import com.northstar.app.presentation.archive.ArchiveScreen
 import com.northstar.app.presentation.dispatch.DispatchMessagesScreen
 import com.northstar.app.presentation.dispatch.DispatchMoreScreen
@@ -103,9 +106,22 @@ fun MainShell(
                 )
             }
             composable(MainRoutes.ADMIN_MORE) {
-                TabPlaceholderScreen(
-                    title = stringResource(R.string.tab_more),
-                    subtitle = user.username,
+                AdminMoreScreen(
+                    user = user,
+                    onRoutesClick = { navController.navigate(MainRoutes.ADMIN_ROUTES) },
+                    onThemeClick = onThemeClick,
+                )
+            }
+            composable(MainRoutes.ADMIN_ROUTES) {
+                RoutesListScreen(
+                    onBack = { navController.popBackStack() },
+                    onAddRoute = { navController.navigate(MainRoutes.ADMIN_NEW_ROUTE) },
+                )
+            }
+            composable(MainRoutes.ADMIN_NEW_ROUTE) {
+                NewRouteScreen(
+                    onBack = { navController.popBackStack() },
+                    onCreated = { navController.popBackStack() },
                 )
             }
             composable(MainRoutes.DISPATCH_FLEET) {

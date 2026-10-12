@@ -42,6 +42,7 @@
     <string name="assign_role_no_cars">Нет машин в парке</string>
     <string name="role_dispatcher">Диспетчер</string>
     <string name="role_driver">Водитель</string>
+    <string name="role_admin">Администратор</string>
 
     <string name="fleet_search_hint">Номер, заявка, город</string>
     <string name="fleet_new_application">Новая заявка</string>
@@ -102,4 +103,17 @@
 
     <string name="theme_dark">Тёмная тема</string>
     <string name="theme_dark_subtitle">Только на этом телефоне</string>
+
+    <string name="admin_routes_menu">Маршруты</string>
+    <string name="admin_routes_title">Маршруты</string>
+    <string name="admin_routes_add">Добавить маршрут</string>
+    <string name="admin_routes_add_title">Новый маршрут</string>
+    <string name="admin_routes_empty">Маршрутов пока нет</string>
+    <string name="admin_route_line">%1$s — %2$s</string>
+    <string name="admin_route_city_start">Город начала</string>
+    <string name="admin_route_city_end">Город конца</string>
+    <string name="admin_route_platon_km">Километры Платон</string>
+    <string name="admin_route_autodor_km">Километры Автодор</string>
+    <string name="admin_route_oll_km">Общие километры</string>
+    <string name="admin_route_cities">Города по пути</string>
 </resources>
