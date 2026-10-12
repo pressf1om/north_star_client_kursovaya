@@ -21,6 +21,7 @@ import com.northstar.app.presentation.admin.AdminMoreScreen
 import com.northstar.app.presentation.admin.NewRouteScreen
 import com.northstar.app.presentation.admin.RouteSettingsScreen
 import com.northstar.app.presentation.admin.RoutesListScreen
+import com.northstar.app.presentation.analytics.AnalyticsScreen
 import com.northstar.app.presentation.archive.ArchiveScreen
 import com.northstar.app.presentation.dispatch.DispatchMessagesScreen
 import com.northstar.app.presentation.dispatch.DispatchMoreScreen
@@ -111,6 +112,7 @@ fun MainShell(
                     user = user,
                     onRoutesClick = { navController.navigate(MainRoutes.ADMIN_ROUTES) },
                     onTariffsClick = { navController.navigate(MainRoutes.ADMIN_ROUTE_SETTINGS) },
+                    onAnalyticsClick = { navController.navigate(MainRoutes.ANALYTICS) },
                     onThemeClick = onThemeClick,
                 )
             }
@@ -143,8 +145,12 @@ fun MainShell(
                 DispatchMoreScreen(
                     user = user,
                     onMessagesClick = { navController.navigate(MainRoutes.DISPATCH_MESSAGES) },
+                    onAnalyticsClick = { navController.navigate(MainRoutes.ANALYTICS) },
                     onThemeClick = onThemeClick,
                 )
+            }
+            composable(MainRoutes.ANALYTICS) {
+                AnalyticsScreen(onBack = { navController.popBackStack() })
             }
             composable(MainRoutes.DISPATCH_MESSAGES) {
                 DispatchMessagesScreen(

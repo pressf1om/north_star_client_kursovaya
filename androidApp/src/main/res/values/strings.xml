@@ -123,4 +123,22 @@
     <string name="admin_tariff_driver_salary">Зарплата водителя за км</string>
     <string name="admin_tariff_platon_cost">Стоимость км по Платону</string>
     <string name="admin_tariffs_saved">Тарифы сохранены</string>
+
+    <string name="analytics_menu">Аналитика маршрутов</string>
+    <string name="analytics_title">Аналитика</string>
+    <string name="analytics_subtitle">Добавьте варианты рейса и сравните итоговую стоимость по формуле тарифов и маршрута.</string>
+    <string name="analytics_number_road">Номер рейса</string>
+    <string name="analytics_date_start">Дата начала</string>
+    <string name="analytics_date_end">Дата конца</string>
+    <string name="analytics_route">Маршрут</string>
+    <string name="analytics_route_pick">Выберите маршрут</string>
+    <string name="analytics_autodor_cost">Стоимость Автодора</string>
+    <string name="analytics_fuel_cost">Стоимость топлива</string>
+    <string name="analytics_add_variant">Добавить вариант</string>
+    <string name="analytics_clear">Очистить все варианты</string>
+    <string name="analytics_no_routes">Сначала добавьте маршрут в справочник (администратор).</string>
+    <string name="analytics_variant_title">Вариант №%1$d</string>
+    <string name="analytics_number_road_line">Рейс №%1$d</string>
+    <string name="analytics_dates_line">%1$s — %2$s</string>
+    <string name="analytics_final_cost">Итого: %1$.2f</string>
 </resources>

@@ -27,6 +27,7 @@ import com.northstar.app.ui.theme.northStarSurfaceCard
 fun DispatchMoreScreen(
     user: CurrentUser,
     onMessagesClick: () -> Unit,
+    onAnalyticsClick: () -> Unit,
     onThemeClick: () -> Unit,
 ) {
     Column(modifier = Modifier.fillMaxSize()) {
@@ -59,6 +60,10 @@ fun DispatchMoreScreen(
             DispatchMoreMenuItem(
                 title = stringResource(R.string.dispatch_messages_menu),
                 onClick = onMessagesClick,
+            )
+            DispatchMoreMenuItem(
+                title = stringResource(R.string.analytics_menu),
+                onClick = onAnalyticsClick,
             )
         }
     }
