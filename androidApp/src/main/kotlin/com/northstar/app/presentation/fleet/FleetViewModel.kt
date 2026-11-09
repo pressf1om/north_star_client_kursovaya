@@ -246,6 +246,7 @@ class FleetViewModel @Inject constructor(
                 val start = GeoMap.parseCoordinatePair(app.coordStart) ?: return@mapNotNull null
                 val end = GeoMap.parseCoordinatePair(app.coordEnd) ?: return@mapNotNull null
                 TransitRoutePins(
+                    carNumber = app.carNow.orEmpty(),
                     startLatitude = start.first,
                     startLongitude = start.second,
                     endLatitude = end.first,
