@@ -4,7 +4,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.northstar.app.data.api.CarDto
 import com.northstar.app.data.remote.apiErrorMessage
-import com.northstar.app.data.remote.isValidCoordinatePair
 import com.northstar.app.domain.applications.ApplicationsRepository
 import com.northstar.app.domain.cars.CarsRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -21,8 +20,9 @@ data class NewApplicationUiState(
     val isLoadingCars: Boolean = true,
     val freeCars: List<CarDto> = emptyList(),
     val noFreeCars: Boolean = false,
-    val coordStart: String = "",
-    val coordEnd: String = "",
+    val cityStart: String = NorthStarMapCities.all.first().label,
+    val cityEnd: String = NorthStarMapCities.all.getOrNull(1)?.label
+        ?: NorthStarMapCities.all.first().label,
     val dateOfStart: String = defaultDate(),
     val weight: String = "",
     val selectedCarNumber: String? = null,
@@ -71,12 +71,12 @@ class NewApplicationViewModel @Inject constructor(
         }
     }
 
-    fun onCoordStartChange(value: String) {
-        _uiState.update { it.copy(coordStart = value) }
+    fun onCityStartChange(value: String) {
+        _uiState.update { it.copy(cityStart = value) }
     }
 
-    fun onCoordEndChange(value: String) {
-        _uiState.update { it.copy(coordEnd = value) }
+    fun onCityEndChange(value: String) {
+        _uiState.update { it.copy(cityEnd = value) }
     }
 
     fun onDateChange(value: String) {
@@ -98,21 +98,21 @@ class NewApplicationViewModel @Inject constructor(
             _uiState.update { it.copy(errorMessage = "Нет свободных машин") }
             return
         }
-        val coordStart = state.coordStart.trim()
-        val coordEnd = state.coordEnd.trim()
+        val coordStart = GeoMap.coordinatesOf(state.cityStart)
+        val coordEnd = GeoMap.coordinatesOf(state.cityEnd)
         val weight = state.weight.trim()
         val date = state.dateOfStart.trim()
         when {
-            !isValidCoordinatePair(coordStart) -> {
-                _uiState.update {
-                    it.copy(errorMessage = "Координаты начала: широта,долгота (например 55.75,37.61)")
-                }
+            coordStart == null -> {
+                _uiState.update { it.copy(errorMessage = "Выберите город начала") }
                 return
             }
-            !isValidCoordinatePair(coordEnd) -> {
-                _uiState.update {
-                    it.copy(errorMessage = "Координаты конца: широта,долгота (например 55.75,37.61)")
-                }
+            coordEnd == null -> {
+                _uiState.update { it.copy(errorMessage = "Выберите город конца") }
+                return
+            }
+            state.cityStart == state.cityEnd -> {
+                _uiState.update { it.copy(errorMessage = "Города начала и конца должны отличаться") }
                 return
             }
             date.isEmpty() -> {

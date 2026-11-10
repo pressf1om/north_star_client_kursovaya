@@ -28,7 +28,8 @@ data class FleetUiState(
     val allCars: List<CarDto> = emptyList(),
     val displayCars: List<CarDto> = emptyList(),
     val applications: List<ApplicationDto> = emptyList(),
-    val transitRoutes: List<TransitRoutePins> = emptyList(),
+    val mapRoutes: List<FleetMapRoute> = emptyList(),
+    val selectedApplicationId: Int? = null,
     val searchQuery: String = "",
     val searchPhase: SearchPhase = SearchPhase.IDLE,
     val searchHistory: List<String> = emptyList(),
@@ -70,7 +71,7 @@ class FleetViewModel @Inject constructor(
                     carsDeferred.await() to appsDeferred.await()
                 }
             }.onSuccess { (cars, applications) ->
-                val transit = buildTransitRoutes(applications)
+                val mapRoutes = buildMapRoutes(applications)
                 _uiState.update { state ->
                     val display = if (state.searchPhase == SearchPhase.RESULTS ||
                         state.searchPhase == SearchPhase.EMPTY
@@ -79,12 +80,14 @@ class FleetViewModel @Inject constructor(
                     } else {
                         cars
                     }
+                    val selectedStillExists = mapRoutes.any { it.applicationId == state.selectedApplicationId }
                     state.copy(
                         isLoading = false,
                         allCars = cars,
                         displayCars = display,
                         applications = applications,
-                        transitRoutes = transit,
+                        mapRoutes = mapRoutes,
+                        selectedApplicationId = state.selectedApplicationId.takeIf { selectedStillExists },
                         loadError = null,
                     )
                 }
@@ -102,6 +105,13 @@ class FleetViewModel @Inject constructor(
 
     fun applicationForCar(carNumber: String): ApplicationDto? =
         _uiState.value.applications.find { it.carNow == carNumber }
+
+    fun selectApplication(applicationId: Int?) {
+        _uiState.update { state ->
+            val next = if (state.selectedApplicationId == applicationId) null else applicationId
+            state.copy(selectedApplicationId = next)
+        }
+    }
 
     fun onSearchQueryChange(value: String) {
         _uiState.update { it.copy(searchQuery = value, searchPhase = SearchPhase.IDLE) }
@@ -235,22 +245,25 @@ class FleetViewModel @Inject constructor(
                 statusLabel,
                 app?.id?.toString() ?: "",
                 app?.weight ?: "",
+                app?.let { GeoMap.displayName(it.coordStart) } ?: "",
+                app?.let { GeoMap.displayName(it.coordEnd) } ?: "",
             ),
         )
     }
 
-    private fun buildTransitRoutes(applications: List<ApplicationDto>): List<TransitRoutePins> =
-        applications
-            .filter { it.status == "5" }
-            .mapNotNull { app ->
-                val start = GeoMap.parseCoordinatePair(app.coordStart) ?: return@mapNotNull null
-                val end = GeoMap.parseCoordinatePair(app.coordEnd) ?: return@mapNotNull null
-                TransitRoutePins(
-                    carNumber = app.carNow.orEmpty(),
-                    startLatitude = start.first,
-                    startLongitude = start.second,
-                    endLatitude = end.first,
-                    endLongitude = end.second,
-                )
-            }
+    private fun buildMapRoutes(applications: List<ApplicationDto>): List<FleetMapRoute> =
+        applications.mapNotNull { app ->
+            val start = GeoMap.parsePoint(app.coordStart) ?: return@mapNotNull null
+            val end = GeoMap.parsePoint(app.coordEnd) ?: return@mapNotNull null
+            FleetMapRoute(
+                applicationId = app.id,
+                carNumber = app.carNow.orEmpty(),
+                startLatitude = start.first,
+                startLongitude = start.second,
+                endLatitude = end.first,
+                endLongitude = end.second,
+                startCity = GeoMap.displayName(app.coordStart),
+                endCity = GeoMap.displayName(app.coordEnd),
+            )
+        }
 }

@@ -38,6 +38,7 @@ import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.northstar.app.R
 import com.northstar.app.data.api.ApplicationDto
+import com.northstar.app.presentation.fleet.GeoMap
 import com.northstar.app.ui.components.LicensePlate
 import com.northstar.app.ui.components.NorthStarPrimaryButton
 import com.northstar.app.ui.theme.Amber
@@ -185,6 +186,13 @@ private fun TripCard(application: ApplicationDto) {
             modifier = Modifier.padding(top = 4.dp),
         )
         Text(
+            text = GeoMap.routeLabel(application.coordStart, application.coordEnd),
+            color = MaterialTheme.colorScheme.onSurface,
+            fontWeight = FontWeight.Bold,
+            fontSize = 13.sp,
+            modifier = Modifier.padding(top = 8.dp),
+        )
+        Text(
             text = stringResource(R.string.driver_trip_date_start, application.dateOfStart),
             color = MaterialTheme.colorScheme.onSurfaceVariant,
             fontSize = 12.sp,
@@ -220,9 +228,9 @@ private fun TripProgressBar(activeIndex: Int) {
 private fun copyCoordinates(context: Context, application: ApplicationDto) {
     val text = buildString {
         append("Начало: ")
-        append(application.coordStart)
+        append(GeoMap.displayName(application.coordStart))
         append("\nКонец: ")
-        append(application.coordEnd)
+        append(GeoMap.displayName(application.coordEnd))
     }
     val clipboard = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
     clipboard.setPrimaryClip(ClipData.newPlainText("coords", text))

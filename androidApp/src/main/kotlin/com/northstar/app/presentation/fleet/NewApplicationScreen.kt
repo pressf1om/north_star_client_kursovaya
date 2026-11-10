@@ -72,17 +72,27 @@ fun NewApplicationScreen(
                     )
                 }
                 else -> {
-                    FormField(
-                        label = stringResource(R.string.new_application_coord_start),
-                        value = uiState.coordStart,
-                        onValueChange = viewModel::onCoordStartChange,
-                        placeholder = stringResource(R.string.new_application_coord_hint),
+                    Text(
+                        text = stringResource(R.string.new_application_city_start),
+                        fontWeight = FontWeight.ExtraBold,
+                        fontSize = 13.sp,
+                        color = MaterialTheme.colorScheme.onSurface,
+                        modifier = Modifier.padding(top = 8.dp, bottom = 4.dp),
                     )
-                    FormField(
-                        label = stringResource(R.string.new_application_coord_end),
-                        value = uiState.coordEnd,
-                        onValueChange = viewModel::onCoordEndChange,
-                        placeholder = stringResource(R.string.new_application_coord_hint),
+                    CityDropdown(
+                        selectedCity = uiState.cityStart,
+                        onCitySelected = viewModel::onCityStartChange,
+                    )
+                    Text(
+                        text = stringResource(R.string.new_application_city_end),
+                        fontWeight = FontWeight.ExtraBold,
+                        fontSize = 13.sp,
+                        color = MaterialTheme.colorScheme.onSurface,
+                        modifier = Modifier.padding(top = 8.dp, bottom = 4.dp),
+                    )
+                    CityDropdown(
+                        selectedCity = uiState.cityEnd,
+                        onCitySelected = viewModel::onCityEndChange,
                     )
                     FormField(
                         label = stringResource(R.string.new_application_date),
@@ -158,6 +168,44 @@ private fun FormField(
         placeholder = { Text(placeholder) },
         colors = northStarOutlinedFieldColors(),
     )
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+private fun CityDropdown(
+    selectedCity: String,
+    onCitySelected: (String) -> Unit,
+) {
+    var expanded by remember { mutableStateOf(false) }
+    ExposedDropdownMenuBox(
+        expanded = expanded,
+        onExpandedChange = { expanded = !expanded },
+    ) {
+        OutlinedTextField(
+            value = selectedCity,
+            onValueChange = {},
+            readOnly = true,
+            modifier = Modifier
+                .menuAnchor()
+                .fillMaxWidth(),
+            trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded) },
+            colors = northStarOutlinedFieldColors(),
+        )
+        ExposedDropdownMenu(
+            expanded = expanded,
+            onDismissRequest = { expanded = false },
+        ) {
+            NorthStarMapCities.all.forEach { city ->
+                DropdownMenuItem(
+                    text = { Text(city.label) },
+                    onClick = {
+                        onCitySelected(city.label)
+                        expanded = false
+                    },
+                )
+            }
+        }
+    }
 }
 
 @OptIn(ExperimentalMaterial3Api::class)

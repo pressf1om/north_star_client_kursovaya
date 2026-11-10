@@ -1,7 +1,7 @@
 package com.northstar.app.presentation.archive
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -31,6 +31,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.northstar.app.R
 import com.northstar.app.data.api.ApplicationDto
 import com.northstar.app.presentation.components.NorthStarTabTopBar
+import com.northstar.app.presentation.fleet.GeoMap
 import com.northstar.app.ui.components.LicensePlate
 import com.northstar.app.ui.theme.Ink
 import com.northstar.app.ui.theme.MutedBrown
@@ -41,6 +42,7 @@ import com.northstar.app.ui.theme.StatusGreen
 fun ArchiveScreen(
     carNumber: String?,
     onThemeClick: () -> Unit,
+    onOpenApplication: (Int) -> Unit,
     viewModel: ArchiveViewModel = hiltViewModel(),
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
@@ -91,7 +93,11 @@ fun ArchiveScreen(
                 else -> {
                     LazyColumn {
                         items(uiState.items, key = { it.id }) { item ->
-                            ArchiveTripCard(application = item, showPlate = carNumber == null)
+                            ArchiveTripCard(
+                                application = item,
+                                showPlate = carNumber == null,
+                                onClick = { onOpenApplication(item.id) },
+                            )
                             Spacer(modifier = Modifier.padding(bottom = 10.dp))
                         }
                     }
@@ -105,9 +111,12 @@ fun ArchiveScreen(
 private fun ArchiveTripCard(
     application: ApplicationDto,
     showPlate: Boolean,
+    onClick: () -> Unit,
 ) {
     val weight = application.weight?.let { "$it т" } ?: ""
     val subtitle = buildString {
+        append(GeoMap.routeLabel(application.coordStart, application.coordEnd))
+        append(" · ")
         append(application.dateOfStart)
         if (weight.isNotEmpty()) {
             append(" · ")
@@ -118,6 +127,7 @@ private fun ArchiveTripCard(
         modifier = Modifier
             .fillMaxWidth()
             .northStarSurfaceCard()
+            .clickable(onClick = onClick)
             .padding(14.dp),
     ) {
         Row(
@@ -149,6 +159,13 @@ private fun ArchiveTripCard(
             fontWeight = FontWeight.Bold,
             fontSize = 12.sp,
             modifier = Modifier.padding(top = 10.dp),
+        )
+        Text(
+            text = stringResource(R.string.fleet_application_details),
+            color = MaterialTheme.colorScheme.onSurface,
+            fontWeight = FontWeight.Bold,
+            fontSize = 12.sp,
+            modifier = Modifier.padding(top = 6.dp),
         )
     }
 }

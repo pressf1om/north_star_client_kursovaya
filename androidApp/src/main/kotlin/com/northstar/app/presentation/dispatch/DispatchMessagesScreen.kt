@@ -1,7 +1,6 @@
 package com.northstar.app.presentation.dispatch
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
@@ -11,6 +10,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
@@ -34,6 +34,8 @@ import com.northstar.app.presentation.components.NorthStarInlineSearchBar
 import com.northstar.app.ui.components.LicensePlate
 import com.northstar.app.ui.theme.Ink
 import com.northstar.app.ui.theme.MutedBrown
+import com.northstar.app.ui.theme.Navy
+import com.northstar.app.ui.theme.northStarOutlinedFieldColors
 import com.northstar.app.ui.theme.northStarSurfaceCard
 
 @Composable
@@ -96,9 +98,22 @@ fun DispatchMessagesScreen(
                     )
                 }
                 else -> {
+                    uiState.replyError?.let { error ->
+                        Text(
+                            text = error,
+                            color = MaterialTheme.colorScheme.error,
+                            modifier = Modifier.padding(top = 8.dp),
+                        )
+                    }
                     LazyColumn(modifier = Modifier.padding(top = 8.dp)) {
                         items(uiState.messages, key = { it.id }) { message ->
-                            DispatchMessageCard(message)
+                            DispatchMessageCard(
+                                message = message,
+                                replyDraft = uiState.replyDrafts[message.id].orEmpty(),
+                                isSending = uiState.sendingReplyId == message.id,
+                                onReplyChange = { viewModel.onReplyChange(message.id, it) },
+                                onSendReply = { viewModel.sendReply(message.id) },
+                            )
                         }
                     }
                 }
@@ -108,7 +123,13 @@ fun DispatchMessagesScreen(
 }
 
 @Composable
-private fun DispatchMessageCard(message: DriverMessageDto) {
+private fun DispatchMessageCard(
+    message: DriverMessageDto,
+    replyDraft: String,
+    isSending: Boolean,
+    onReplyChange: (String) -> Unit,
+    onSendReply: () -> Unit,
+) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -126,10 +147,52 @@ private fun DispatchMessageCard(message: DriverMessageDto) {
             )
         }
         Text(
+            text = stringResource(R.string.dispatch_message_from_driver),
+            color = MaterialTheme.colorScheme.onSurfaceVariant,
+            fontSize = 11.sp,
+            fontWeight = FontWeight.ExtraBold,
+            modifier = Modifier.padding(top = 10.dp),
+        )
+        Text(
             text = message.message,
             color = MaterialTheme.colorScheme.onSurface,
             fontSize = 14.sp,
-            modifier = Modifier.padding(top = 10.dp),
+            modifier = Modifier.padding(top = 4.dp),
         )
+        if (!message.reply.isNullOrBlank()) {
+            Text(
+                text = stringResource(R.string.dispatch_message_from_dispatcher),
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                fontSize = 11.sp,
+                fontWeight = FontWeight.ExtraBold,
+                modifier = Modifier.padding(top = 10.dp),
+            )
+            Text(
+                text = message.reply,
+                color = MaterialTheme.colorScheme.onSurface,
+                fontSize = 14.sp,
+                modifier = Modifier.padding(top = 4.dp),
+            )
+        } else {
+            OutlinedTextField(
+                value = replyDraft,
+                onValueChange = onReplyChange,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 10.dp),
+                placeholder = { Text(stringResource(R.string.dispatch_reply_hint)) },
+                colors = northStarOutlinedFieldColors(),
+            )
+            TextButton(
+                onClick = onSendReply,
+                enabled = !isSending,
+            ) {
+                Text(
+                    text = stringResource(R.string.dispatch_reply_send),
+                    color = Navy,
+                    fontWeight = FontWeight.Bold,
+                )
+            }
+        }
     }
 }

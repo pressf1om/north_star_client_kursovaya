@@ -111,7 +111,19 @@ fun MainShell(
                 route = MainRoutes.FLEET_APPLICATION,
                 arguments = listOf(navArgument("applicationId") { type = NavType.IntType }),
             ) {
-                ApplicationDetailScreen(onBack = { navController.popBackStack() })
+                ApplicationDetailScreen(
+                    onBack = { navController.popBackStack() },
+                    fromArchive = false,
+                )
+            }
+            composable(
+                route = MainRoutes.ARCHIVE_APPLICATION,
+                arguments = listOf(navArgument("applicationId") { type = NavType.IntType }),
+            ) {
+                ApplicationDetailScreen(
+                    onBack = { navController.popBackStack() },
+                    fromArchive = true,
+                )
             }
             composable(MainRoutes.NEW_APPLICATION) {
                 NewApplicationScreen(
@@ -156,7 +168,13 @@ fun MainShell(
                 )
             }
             composable(MainRoutes.DISPATCH_ARCHIVE) {
-                ArchiveScreen(carNumber = null, onThemeClick = onThemeClick)
+                ArchiveScreen(
+                    carNumber = null,
+                    onThemeClick = onThemeClick,
+                    onOpenApplication = { id ->
+                        navController.navigate(MainRoutes.archiveApplication(id))
+                    },
+                )
             }
             composable(MainRoutes.DISPATCH_MORE) {
                 DispatchMoreScreen(
@@ -183,7 +201,13 @@ fun MainShell(
                 DriverTripScreen(carNumber = user.carNumber)
             }
             composable(MainRoutes.DRIVER_ARCHIVE) {
-                ArchiveScreen(carNumber = user.carNumber, onThemeClick = onThemeClick)
+                ArchiveScreen(
+                    carNumber = user.carNumber,
+                    onThemeClick = onThemeClick,
+                    onOpenApplication = { id ->
+                        navController.navigate(MainRoutes.archiveApplication(id))
+                    },
+                )
             }
             composable(MainRoutes.DRIVER_MORE) {
                 DriverMoreScreen(

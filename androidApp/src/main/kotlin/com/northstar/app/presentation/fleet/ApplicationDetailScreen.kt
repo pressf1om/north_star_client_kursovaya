@@ -31,19 +31,20 @@ import com.northstar.app.ui.theme.northStarSurfaceCard
 @Composable
 fun ApplicationDetailScreen(
     onBack: () -> Unit,
+    fromArchive: Boolean = false,
     viewModel: ApplicationDetailViewModel = hiltViewModel(),
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val lifecycleOwner = LocalLifecycleOwner.current
 
-    DisposableEffect(lifecycleOwner) {
+    DisposableEffect(lifecycleOwner, fromArchive) {
         val observer = LifecycleEventObserver { _, event ->
             if (event == Lifecycle.Event.ON_RESUME) {
-                viewModel.load()
+                viewModel.load(fromArchive)
             }
         }
         lifecycleOwner.lifecycle.addObserver(observer)
-        viewModel.load()
+        viewModel.load(fromArchive)
         onDispose { lifecycleOwner.lifecycle.removeObserver(observer) }
     }
 
@@ -64,7 +65,7 @@ fun ApplicationDetailScreen(
                 }
                 uiState.errorMessage != null -> {
                     Text(uiState.errorMessage!!, color = MaterialTheme.colorScheme.error)
-                    TextButton(onClick = { viewModel.load() }) {
+                    TextButton(onClick = { viewModel.load(fromArchive) }) {
                         Text(stringResource(R.string.action_retry))
                     }
                 }
@@ -88,11 +89,11 @@ fun ApplicationDetailScreen(
                     )
                     DetailRow(
                         label = stringResource(R.string.application_detail_coord_start),
-                        value = app.coordStart,
+                        value = GeoMap.displayName(app.coordStart),
                     )
                     DetailRow(
                         label = stringResource(R.string.application_detail_coord_end),
-                        value = app.coordEnd,
+                        value = GeoMap.displayName(app.coordEnd),
                     )
                 }
             }

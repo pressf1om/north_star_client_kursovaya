@@ -15,6 +15,9 @@ object MainRoutes {
     const val FLEET_APPLICATION = "fleet/application/{applicationId}"
 
     fun fleetApplication(applicationId: Int): String = "fleet/application/$applicationId"
+    const val ARCHIVE_APPLICATION = "archive/application/{applicationId}"
+
+    fun archiveApplication(applicationId: Int): String = "archive/application/$applicationId"
     const val ADMIN_MORE = "admin/more"
     const val ADMIN_ROUTES = "admin/routes"
     const val ADMIN_NEW_ROUTE = "admin/routes/new"

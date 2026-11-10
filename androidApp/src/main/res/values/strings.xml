@@ -60,8 +60,8 @@
     <string name="application_detail_status">Статус</string>
     <string name="application_detail_weight">Вес</string>
     <string name="application_detail_date">Дата выезда</string>
-    <string name="application_detail_coord_start">Начало</string>
-    <string name="application_detail_coord_end">Конец</string>
+    <string name="application_detail_coord_start">Город погрузки</string>
+    <string name="application_detail_coord_end">Город выгрузки</string>
     <string name="people_assign_role_action">Выдать роль</string>
     <string name="people_edit_role_action">Изменить роль</string>
     <string name="fleet_add_car_title">Новая машина</string>
@@ -70,9 +70,11 @@
     <string name="action_save">Сохранить</string>
     <string name="action_cancel">Отмена</string>
 
-    <string name="new_application_coord_start">Координаты начала</string>
-    <string name="new_application_coord_end">Координаты конца</string>
+    <string name="new_application_coord_start">Город начала</string>
+    <string name="new_application_coord_end">Город конца</string>
     <string name="new_application_coord_hint">широта,долгота</string>
+    <string name="new_application_city_start">Город погрузки</string>
+    <string name="new_application_city_end">Город выгрузки</string>
     <string name="new_application_date">Дата выезда</string>
     <string name="new_application_weight">Вес, т</string>
     <string name="new_application_free_car">Свободная машина</string>
@@ -82,7 +84,7 @@
     <string name="driver_trip_empty">Назначенных заявок нет</string>
     <string name="driver_trip_application_title">Заявка №%1$d</string>
     <string name="driver_trip_confirm_step">Да, перейти дальше</string>
-    <string name="driver_trip_copy_coords">Копировать координаты</string>
+    <string name="driver_trip_copy_coords">Копировать маршрут</string>
     <string name="driver_trip_date_start">Выезд: %1$s</string>
 
     <string name="archive_title">Архив рейсов</string>
@@ -108,12 +110,20 @@
     <string name="driver_help_message_hint">Опишите проблему</string>
     <string name="driver_help_send">Отправить</string>
     <string name="driver_help_sent">Сообщение отправлено</string>
+    <string name="driver_help_history">Переписка</string>
+    <string name="driver_help_you">Вы</string>
+    <string name="driver_help_dispatcher">Диспетчер</string>
+    <string name="driver_help_waiting_reply">Ожидает ответа диспетчера</string>
 
     <string name="dispatch_messages_menu">Сообщения водителей</string>
     <string name="dispatch_messages_title">Сообщения</string>
     <string name="dispatch_messages_filter_hint">Фильтр по номеру машины</string>
     <string name="dispatch_messages_empty">Сообщений нет</string>
     <string name="dispatch_message_id">№%1$d</string>
+    <string name="dispatch_message_from_driver">Водитель</string>
+    <string name="dispatch_message_from_dispatcher">Ответ</string>
+    <string name="dispatch_reply_hint">Ответить водителю</string>
+    <string name="dispatch_reply_send">Отправить ответ</string>
 
     <string name="theme_dark">Тёмная тема</string>
     <string name="theme_dark_subtitle">Только на этом телефоне</string>

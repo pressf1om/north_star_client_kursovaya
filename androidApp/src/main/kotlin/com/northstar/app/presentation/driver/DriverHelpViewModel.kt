@@ -2,6 +2,7 @@ package com.northstar.app.presentation.driver
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.northstar.app.data.api.DriverMessageDto
 import com.northstar.app.domain.drivermessages.DriverMessagesRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
@@ -14,6 +15,8 @@ import kotlinx.coroutines.launch
 data class DriverHelpUiState(
     val messageText: String = "",
     val isSending: Boolean = false,
+    val isLoadingHistory: Boolean = false,
+    val history: List<DriverMessageDto> = emptyList(),
     val sentSuccess: Boolean = false,
     val errorMessage: String? = null,
 )
@@ -25,6 +28,21 @@ class DriverHelpViewModel @Inject constructor(
 
     private val _uiState = MutableStateFlow(DriverHelpUiState())
     val uiState: StateFlow<DriverHelpUiState> = _uiState.asStateFlow()
+
+    fun loadHistory(carNumber: String?) {
+        val number = carNumber?.trim()
+        if (number.isNullOrEmpty()) return
+        viewModelScope.launch {
+            _uiState.update { it.copy(isLoadingHistory = true) }
+            driverMessagesRepository.listMessages(number)
+                .onSuccess { list ->
+                    _uiState.update { it.copy(isLoadingHistory = false, history = list) }
+                }
+                .onFailure {
+                    _uiState.update { it.copy(isLoadingHistory = false) }
+                }
+        }
+    }
 
     fun onMessageChange(text: String) {
         _uiState.update { it.copy(messageText = text, sentSuccess = false, errorMessage = null) }
@@ -52,6 +70,7 @@ class DriverHelpViewModel @Inject constructor(
                             sentSuccess = true,
                         )
                     }
+                    loadHistory(number)
                 }
                 .onFailure {
                     _uiState.update {

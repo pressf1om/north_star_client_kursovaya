@@ -1,7 +1,7 @@
 package com.northstar.app.presentation.fleet
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -12,7 +12,6 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
@@ -117,7 +116,9 @@ fun FleetScreen(
                 )
             }
             FleetNorthStarMap(
-                transitRoutes = uiState.transitRoutes,
+                routes = uiState.mapRoutes,
+                selectedApplicationId = uiState.selectedApplicationId,
+                onRouteSelected = viewModel::selectApplication,
                 modifier = Modifier.padding(bottom = 12.dp),
             )
             NorthStarPrimaryButton(
@@ -179,7 +180,11 @@ fun FleetScreen(
                             FleetCarCard(
                                 car = car,
                                 application = application,
+                                selected = application?.id == uiState.selectedApplicationId,
                                 canDeleteApplication = canAddCar && application != null,
+                                onSelectApplication = application?.let { app ->
+                                    { viewModel.selectApplication(app.id) }
+                                },
                                 onDeleteApplication = application?.let { app ->
                                     { viewModel.requestDeleteApplication(app.id) }
                                 },
@@ -285,7 +290,9 @@ fun FleetScreen(
 private fun FleetCarCard(
     car: CarDto,
     application: ApplicationDto?,
+    selected: Boolean,
     canDeleteApplication: Boolean,
+    onSelectApplication: (() -> Unit)?,
     onDeleteApplication: (() -> Unit)?,
     onOpenApplication: (() -> Unit)?,
 ) {
@@ -294,8 +301,9 @@ private fun FleetCarCard(
     val statusLabel = CarStatusLabels.label(car.status)
     val subtitle = when {
         application != null -> {
+            val route = GeoMap.routeLabel(application.coordStart, application.coordEnd)
             val weight = application.weight?.let { "$it т" } ?: ""
-            stringResource(R.string.fleet_application_line, application.id, weight)
+            "$route · $weight"
         }
         free -> stringResource(R.string.fleet_no_trip)
         else -> stringResource(R.string.fleet_trip_in_progress)
@@ -305,7 +313,14 @@ private fun FleetCarCard(
         modifier = Modifier
             .fillMaxWidth()
             .height(IntrinsicSize.Min)
-            .northStarSurfaceCard(),
+            .northStarSurfaceCard(borderWidth = if (selected) 2.dp else 1.dp)
+            .then(
+                if (onSelectApplication != null) {
+                    Modifier.clickable(onClick = onSelectApplication)
+                } else {
+                    Modifier
+                },
+            ),
     ) {
         Box(
             modifier = Modifier
